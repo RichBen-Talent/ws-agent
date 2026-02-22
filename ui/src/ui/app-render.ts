@@ -164,7 +164,7 @@ export function renderApp(state: AppViewState) {
             @click=${() => {
               state.streamMode = !state.streamMode;
               try {
-                localStorage.setItem("openclaw:stream-mode", String(state.streamMode));
+                localStorage.setItem("ws-agent:stream-mode", String(state.streamMode));
               } catch {
                 /* */
               }
@@ -198,8 +198,8 @@ export function renderApp(state: AppViewState) {
             ? nothing
             : html`
           <div class="sidebar-brand">
-            <img class="sidebar-brand__logo" src="${basePath ? `${basePath}/favicon.svg` : "/favicon.svg"}" alt="OpenClaw" />
-            <span class="sidebar-brand__title">OpenClaw</span>
+            <img class="sidebar-brand__logo" src="${basePath ? `${basePath}/favicon.svg` : "/favicon.svg"}" alt="WsAgent" />
+            <span class="sidebar-brand__title">WsAgent</span>
           </div>
         `
         }
@@ -258,7 +258,7 @@ export function renderApp(state: AppViewState) {
         <div class="sidebar-footer">
           <a
             class="nav-item nav-item--external"
-            href="https://docs.openclaw.ai"
+            href="https://docs.ws-agent.ai"
             target="_blank"
             rel="noreferrer"
             title="${t("common.docs")} (opens in new tab)"
@@ -359,7 +359,7 @@ export function renderApp(state: AppViewState) {
                 onToggleStreamMode: () => {
                   state.streamMode = !state.streamMode;
                   try {
-                    localStorage.setItem("openclaw:stream-mode", String(state.streamMode));
+                    localStorage.setItem("ws-agent:stream-mode", String(state.streamMode));
                   } catch {
                     /* */
                   }

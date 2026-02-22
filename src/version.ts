@@ -1,7 +1,7 @@
 import { createRequire } from "node:module";
 
-declare const __OPENCLAW_VERSION__: string | undefined;
-const CORE_PACKAGE_NAME = "openclaw";
+declare const __WS_AGENT_VERSION__: string | undefined;
+const CORE_PACKAGE_NAME = "ws-agent";
 
 const PACKAGE_JSON_CANDIDATES = [
   "../package.json",
@@ -81,18 +81,18 @@ export function resolveRuntimeServiceVersion(
 ): string {
   return (
     firstNonEmpty(
-      env["OPENCLAW_VERSION"],
-      env["OPENCLAW_SERVICE_VERSION"],
+      env["WS_AGENT_VERSION"],
+      env["WS_AGENT_SERVICE_VERSION"],
       env["npm_package_version"],
     ) ?? fallback
   );
 }
 
-// Single source of truth for the current OpenClaw version.
+// Single source of truth for the current WsAgent version.
 // - Embedded/bundled builds: injected define or env var.
 // - Dev/npm builds: package.json.
 export const VERSION =
-  (typeof __OPENCLAW_VERSION__ === "string" && __OPENCLAW_VERSION__) ||
-  process.env.OPENCLAW_BUNDLED_VERSION ||
+  (typeof __WS_AGENT_VERSION__ === "string" && __WS_AGENT_VERSION__) ||
+  process.env.WS_AGENT_BUNDLED_VERSION ||
   resolveVersionFromModuleUrl(import.meta.url) ||
   "0.0.0";

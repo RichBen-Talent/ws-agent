@@ -1,12 +1,12 @@
+import { describe, expect, it, vi } from "vitest";
 import type {
   ChannelGatewayContext,
   ChannelAccountSnapshot,
-  OpenClawConfig,
+  WsAgentConfig,
   PluginRuntime,
   ResolvedLineAccount,
   RuntimeEnv,
-} from "openclaw/plugin-sdk";
-import { describe, expect, it, vi } from "vitest";
+} from "ws-agent/plugin-sdk";
 import { linePlugin } from "./channel.js";
 import { setLineRuntime } from "./runtime.js";
 
@@ -64,7 +64,7 @@ function createStartAccountCtx(params: {
       tokenSource: "config" as const,
       config: {} as ResolvedLineAccount["config"],
     },
-    cfg: {} as OpenClawConfig,
+    cfg: {} as WsAgentConfig,
     runtime: params.runtime,
     abortSignal: new AbortController().signal,
     log: { info: vi.fn(), warn: vi.fn(), error: vi.fn(), debug: vi.fn() },

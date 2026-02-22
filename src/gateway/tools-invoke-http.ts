@@ -1,5 +1,4 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { createOpenClawTools } from "../agents/openclaw-tools.js";
 import {
   resolveEffectiveToolPolicy,
   resolveGroupToolPolicy,
@@ -15,6 +14,7 @@ import {
   resolveToolProfilePolicy,
 } from "../agents/tool-policy.js";
 import { ToolInputError } from "../agents/tools/common.js";
+import { createWsAgentTools } from "../agents/ws-agent-tools.js";
 import { loadConfig } from "../config/config.js";
 import { resolveMainSessionKey } from "../config/sessions.js";
 import { logWarn } from "../logger.js";
@@ -210,9 +210,9 @@ export async function handleToolsInvokeHttpRequest(
 
   // Resolve message channel/account hints (optional headers) for policy inheritance.
   const messageChannel = normalizeMessageChannel(
-    getHeader(req, "x-openclaw-message-channel") ?? "",
+    getHeader(req, "x-ws-agent-message-channel") ?? "",
   );
-  const accountId = getHeader(req, "x-openclaw-account-id")?.trim() || undefined;
+  const accountId = getHeader(req, "x-ws-agent-account-id")?.trim() || undefined;
 
   const {
     agentId,
@@ -244,7 +244,7 @@ export async function handleToolsInvokeHttpRequest(
     : undefined;
 
   // Build tool list (core + plugin tools).
-  const allTools = createOpenClawTools({
+  const allTools = createWsAgentTools({
     agentSessionKey: sessionKey,
     agentChannel: messageChannel ?? undefined,
     agentAccountId: accountId,

@@ -1,12 +1,12 @@
 ---
-summary: "CLI reference for `openclaw channels` (accounts, status, login/logout, logs)"
+summary: "CLI reference for `ws-agent channels` (accounts, status, login/logout, logs)"
 read_when:
   - You want to add/remove channel accounts (WhatsApp/Telegram/Discord/Google Chat/Slack/Mattermost (plugin)/Signal/iMessage)
   - You want to check channel status or tail channel logs
 title: "channels"
 ---
 
-# `openclaw channels`
+# `ws-agent channels`
 
 Manage chat channel accounts and their runtime status on the Gateway.
 
@@ -18,43 +18,43 @@ Related docs:
 ## Common commands
 
 ```bash
-openclaw channels list
-openclaw channels status
-openclaw channels capabilities
-openclaw channels capabilities --channel discord --target channel:123
-openclaw channels resolve --channel slack "#general" "@jane"
-openclaw channels logs --channel all
+ws-agent channels list
+ws-agent channels status
+ws-agent channels capabilities
+ws-agent channels capabilities --channel discord --target channel:123
+ws-agent channels resolve --channel slack "#general" "@jane"
+ws-agent channels logs --channel all
 ```
 
 ## Add / remove accounts
 
 ```bash
-openclaw channels add --channel telegram --token <bot-token>
-openclaw channels remove --channel telegram --delete
+ws-agent channels add --channel telegram --token <bot-token>
+ws-agent channels remove --channel telegram --delete
 ```
 
-Tip: `openclaw channels add --help` shows per-channel flags (token, app token, signal-cli paths, etc).
+Tip: `ws-agent channels add --help` shows per-channel flags (token, app token, signal-cli paths, etc).
 
 ## Login / logout (interactive)
 
 ```bash
-openclaw channels login --channel whatsapp
-openclaw channels logout --channel whatsapp
+ws-agent channels login --channel whatsapp
+ws-agent channels logout --channel whatsapp
 ```
 
 ## Troubleshooting
 
-- Run `openclaw status --deep` for a broad probe.
-- Use `openclaw doctor` for guided fixes.
-- `openclaw channels list` prints `Claude: HTTP 403 ... user:profile` → usage snapshot needs the `user:profile` scope. Use `--no-usage`, or provide a claude.ai session key (`CLAUDE_WEB_SESSION_KEY` / `CLAUDE_WEB_COOKIE`), or re-auth via Claude Code CLI.
+- Run `ws-agent status --deep` for a broad probe.
+- Use `ws-agent doctor` for guided fixes.
+- `ws-agent channels list` prints `Claude: HTTP 403 ... user:profile` → usage snapshot needs the `user:profile` scope. Use `--no-usage`, or provide a claude.ai session key (`CLAUDE_WEB_SESSION_KEY` / `CLAUDE_WEB_COOKIE`), or re-auth via Claude Code CLI.
 
 ## Capabilities probe
 
 Fetch provider capability hints (intents/scopes where available) plus static feature support:
 
 ```bash
-openclaw channels capabilities
-openclaw channels capabilities --channel discord --target channel:123
+ws-agent channels capabilities
+ws-agent channels capabilities --channel discord --target channel:123
 ```
 
 Notes:
@@ -68,9 +68,9 @@ Notes:
 Resolve channel/user names to IDs using the provider directory:
 
 ```bash
-openclaw channels resolve --channel slack "#general" "@jane"
-openclaw channels resolve --channel discord "My Server/#support" "@someone"
-openclaw channels resolve --channel matrix "Project Room"
+ws-agent channels resolve --channel slack "#general" "@jane"
+ws-agent channels resolve --channel discord "My Server/#support" "@someone"
+ws-agent channels resolve --channel matrix "Project Room"
 ```
 
 Notes:

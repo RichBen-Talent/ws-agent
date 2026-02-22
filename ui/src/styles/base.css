@@ -554,7 +554,7 @@ html.theme-transition::view-transition-new(theme) {
   }
 }
 
-openclaw-app {
+ws-agent-app {
   display: block;
   position: relative;
   z-index: 1;

@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { WsAgentConfig } from "../../../config/config.js";
 import type { DiscordGuildEntry } from "../../../config/types.discord.js";
 import type { DmPolicy } from "../../../config/types.js";
 import {
@@ -27,7 +27,7 @@ import {
 
 const channel = "discord" as const;
 
-function setDiscordDmPolicy(cfg: OpenClawConfig, dmPolicy: DmPolicy) {
+function setDiscordDmPolicy(cfg: WsAgentConfig, dmPolicy: DmPolicy) {
   const existingAllowFrom =
     cfg.channels?.discord?.allowFrom ?? cfg.channels?.discord?.dm?.allowFrom;
   const allowFrom = dmPolicy === "open" ? addWildcardAllowFrom(existingAllowFrom) : undefined;
@@ -62,10 +62,10 @@ async function noteDiscordTokenHelp(prompter: WizardPrompter): Promise<void> {
 }
 
 function patchDiscordConfigForAccount(
-  cfg: OpenClawConfig,
+  cfg: WsAgentConfig,
   accountId: string,
   patch: Record<string, unknown>,
-): OpenClawConfig {
+): WsAgentConfig {
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return {
       ...cfg,
@@ -100,21 +100,21 @@ function patchDiscordConfigForAccount(
 }
 
 function setDiscordGroupPolicy(
-  cfg: OpenClawConfig,
+  cfg: WsAgentConfig,
   accountId: string,
   groupPolicy: "open" | "allowlist" | "disabled",
-): OpenClawConfig {
+): WsAgentConfig {
   return patchDiscordConfigForAccount(cfg, accountId, { groupPolicy });
 }
 
 function setDiscordGuildChannelAllowlist(
-  cfg: OpenClawConfig,
+  cfg: WsAgentConfig,
   accountId: string,
   entries: Array<{
     guildKey: string;
     channelKey?: string;
   }>,
-): OpenClawConfig {
+): WsAgentConfig {
   const baseGuilds =
     accountId === DEFAULT_ACCOUNT_ID
       ? (cfg.channels?.discord?.guilds ?? {})
@@ -134,7 +134,7 @@ function setDiscordGuildChannelAllowlist(
   return patchDiscordConfigForAccount(cfg, accountId, { guilds });
 }
 
-function setDiscordAllowFrom(cfg: OpenClawConfig, allowFrom: string[]): OpenClawConfig {
+function setDiscordAllowFrom(cfg: WsAgentConfig, allowFrom: string[]): WsAgentConfig {
   return {
     ...cfg,
     channels: {
@@ -152,10 +152,10 @@ function setDiscordAllowFrom(cfg: OpenClawConfig, allowFrom: string[]): OpenClaw
 }
 
 async function promptDiscordAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: WsAgentConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<OpenClawConfig> {
+}): Promise<WsAgentConfig> {
   const accountId = resolveOnboardingAccountId({
     accountId: params.accountId,
     defaultAccountId: resolveDefaultDiscordAccountId(params.cfg),

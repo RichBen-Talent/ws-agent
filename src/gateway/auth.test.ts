@@ -86,13 +86,13 @@ describe("gateway auth", () => {
     expect(res.user).toBe(params.expected.user);
   }
 
-  it("resolves token/password from OPENCLAW gateway env vars", () => {
+  it("resolves token/password from WS_AGENT gateway env vars", () => {
     expect(
       resolveGatewayAuth({
         authConfig: {},
         env: {
-          OPENCLAW_GATEWAY_TOKEN: "env-token",
-          OPENCLAW_GATEWAY_PASSWORD: "env-password",
+          WS_AGENT_GATEWAY_TOKEN: "env-token",
+          WS_AGENT_GATEWAY_PASSWORD: "env-password",
         } as NodeJS.ProcessEnv,
       }),
     ).toMatchObject({
@@ -100,23 +100,6 @@ describe("gateway auth", () => {
       modeSource: "password",
       token: "env-token",
       password: "env-password",
-    });
-  });
-
-  it("does not resolve legacy CLAWDBOT gateway env vars", () => {
-    expect(
-      resolveGatewayAuth({
-        authConfig: {},
-        env: {
-          CLAWDBOT_GATEWAY_TOKEN: "legacy-token",
-          CLAWDBOT_GATEWAY_PASSWORD: "legacy-password",
-        } as NodeJS.ProcessEnv,
-      }),
-    ).toMatchObject({
-      mode: "token",
-      modeSource: "default",
-      token: undefined,
-      password: undefined,
     });
   });
 

@@ -20,49 +20,49 @@ describe("resolveTelegramAutoSelectFamilyDecision", () => {
   it("prefers env enable over env disable", () => {
     const decision = resolveTelegramAutoSelectFamilyDecision({
       env: {
-        OPENCLAW_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY: "1",
-        OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1",
+        WS_AGENT_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY: "1",
+        WS_AGENT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1",
       },
       nodeMajor: 22,
     });
     expect(decision).toEqual({
       value: true,
-      source: "env:OPENCLAW_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY",
+      source: "env:WS_AGENT_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY",
     });
   });
 
   it("uses env disable when set", () => {
     const decision = resolveTelegramAutoSelectFamilyDecision({
-      env: { OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1" },
+      env: { WS_AGENT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1" },
       nodeMajor: 22,
     });
     expect(decision).toEqual({
       value: false,
-      source: "env:OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY",
+      source: "env:WS_AGENT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY",
     });
   });
 
   it("prefers env enable over config", () => {
     const decision = resolveTelegramAutoSelectFamilyDecision({
-      env: { OPENCLAW_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY: "1" },
+      env: { WS_AGENT_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY: "1" },
       network: { autoSelectFamily: false },
       nodeMajor: 22,
     });
     expect(decision).toEqual({
       value: true,
-      source: "env:OPENCLAW_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY",
+      source: "env:WS_AGENT_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY",
     });
   });
 
   it("prefers env disable over config", () => {
     const decision = resolveTelegramAutoSelectFamilyDecision({
-      env: { OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1" },
+      env: { WS_AGENT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY: "1" },
       network: { autoSelectFamily: true },
       nodeMajor: 22,
     });
     expect(decision).toEqual({
       value: false,
-      source: "env:OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY",
+      source: "env:WS_AGENT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY",
     });
   });
 
@@ -105,12 +105,12 @@ describe("resolveTelegramAutoSelectFamilyDecision", () => {
     it("respects env override on WSL2", () => {
       vi.mocked(isWSL2Sync).mockReturnValue(true);
       const decision = resolveTelegramAutoSelectFamilyDecision({
-        env: { OPENCLAW_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY: "1" },
+        env: { WS_AGENT_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY: "1" },
         nodeMajor: 22,
       });
       expect(decision).toEqual({
         value: true,
-        source: "env:OPENCLAW_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY",
+        source: "env:WS_AGENT_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY",
       });
     });
 

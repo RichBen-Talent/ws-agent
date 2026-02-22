@@ -1,4 +1,4 @@
-import { createDedupeCache } from "openclaw/plugin-sdk";
+import { createDedupeCache } from "ws-agent/plugin-sdk";
 
 export type ProcessedMessageTracker = {
   mark: (id?: string | null) => boolean;

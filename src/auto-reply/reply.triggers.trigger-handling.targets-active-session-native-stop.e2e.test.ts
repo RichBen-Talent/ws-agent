@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { WsAgentConfig } from "../config/config.js";
 import { loadSessionStore } from "../config/sessions.js";
 import {
   getAbortEmbeddedPiRunMock,
@@ -16,16 +16,16 @@ import { enqueueFollowupRun, getFollowupQueueDepth, type FollowupRun } from "./r
 let getReplyFromConfig: typeof import("./reply.js").getReplyFromConfig;
 let previousFastTestEnv: string | undefined;
 beforeAll(async () => {
-  previousFastTestEnv = process.env.OPENCLAW_TEST_FAST;
-  process.env.OPENCLAW_TEST_FAST = "1";
+  previousFastTestEnv = process.env.WS_AGENT_TEST_FAST;
+  process.env.WS_AGENT_TEST_FAST = "1";
   ({ getReplyFromConfig } = await import("./reply.js"));
 });
 afterAll(() => {
   if (previousFastTestEnv === undefined) {
-    delete process.env.OPENCLAW_TEST_FAST;
+    delete process.env.WS_AGENT_TEST_FAST;
     return;
   }
-  process.env.OPENCLAW_TEST_FAST = previousFastTestEnv;
+  process.env.WS_AGENT_TEST_FAST = previousFastTestEnv;
 });
 
 installTriggerHandlingE2eTestHooks();
@@ -184,7 +184,7 @@ describe("trigger handling", () => {
         agents: {
           defaults: {
             model: "anthropic/claude-opus-4-5",
-            workspace: join(home, "openclaw"),
+            workspace: join(home, "ws-agent"),
           },
           list: [{ id: "coding", model: "minimax/MiniMax-M2.1" }],
         },
@@ -194,7 +194,7 @@ describe("trigger handling", () => {
           },
         },
         session: { store: join(home, "sessions.json") },
-      } as unknown as OpenClawConfig;
+      } as unknown as WsAgentConfig;
 
       const res = await getReplyFromConfig(
         {

@@ -1,8 +1,8 @@
 import type {
   ChannelMessageActionAdapter,
   ChannelMessageActionName,
-  OpenClawConfig,
-} from "openclaw/plugin-sdk";
+  WsAgentConfig,
+} from "ws-agent/plugin-sdk";
 import {
   createActionGate,
   extractToolSend,
@@ -10,7 +10,7 @@ import {
   readNumberParam,
   readReactionParams,
   readStringParam,
-} from "openclaw/plugin-sdk";
+} from "ws-agent/plugin-sdk";
 import { listEnabledGoogleChatAccounts, resolveGoogleChatAccount } from "./accounts.js";
 import {
   createGoogleChatReaction,
@@ -24,13 +24,13 @@ import { resolveGoogleChatOutboundSpace } from "./targets.js";
 
 const providerId = "googlechat";
 
-function listEnabledAccounts(cfg: OpenClawConfig) {
+function listEnabledAccounts(cfg: WsAgentConfig) {
   return listEnabledGoogleChatAccounts(cfg).filter(
     (account) => account.enabled && account.credentialSource !== "none",
   );
 }
 
-function isReactionsEnabled(accounts: ReturnType<typeof listEnabledAccounts>, cfg: OpenClawConfig) {
+function isReactionsEnabled(accounts: ReturnType<typeof listEnabledAccounts>, cfg: WsAgentConfig) {
   for (const account of accounts) {
     const gate = createActionGate(
       (account.config.actions ??

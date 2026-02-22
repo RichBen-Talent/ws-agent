@@ -6,7 +6,7 @@ import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest
 import { resolveStateDir } from "../config/paths.js";
 import { sendVoiceMessageDiscord } from "../discord/send.js";
 import * as ssrf from "../infra/net/ssrf.js";
-import { resolvePreferredOpenClawTmpDir } from "../infra/tmp-openclaw-dir.js";
+import { resolvePreferredWsAgentTmpDir } from "../infra/tmp-ws-agent-dir.js";
 import { optimizeImageToPng } from "../media/image-ops.js";
 import { captureEnv } from "../test-utils/env.js";
 import {
@@ -52,7 +52,7 @@ async function createLargeTestJpeg(): Promise<{ buffer: Buffer; file: string }> 
 
 beforeAll(async () => {
   fixtureRoot = await fs.mkdtemp(
-    path.join(resolvePreferredOpenClawTmpDir(), "openclaw-media-test-"),
+    path.join(resolvePreferredWsAgentTmpDir(), "ws-agent-media-test-"),
   );
   largeJpegBuffer = await sharp({
     create: {
@@ -110,14 +110,14 @@ afterEach(() => {
 
 describe("web media loading", () => {
   beforeAll(() => {
-    // Ensure state dir is stable and not influenced by other tests that stub OPENCLAW_STATE_DIR.
-    // Also keep it outside the OpenClaw temp root so default localRoots doesn't accidentally make all state readable.
-    stateDirSnapshot = captureEnv(["OPENCLAW_STATE_DIR"]);
-    process.env.OPENCLAW_STATE_DIR = path.join(
+    // Ensure state dir is stable and not influenced by other tests that stub WS_AGENT_STATE_DIR.
+    // Also keep it outside the WsAgent temp root so default localRoots doesn't accidentally make all state readable.
+    stateDirSnapshot = captureEnv(["WS_AGENT_STATE_DIR"]);
+    process.env.WS_AGENT_STATE_DIR = path.join(
       path.parse(os.tmpdir()).root,
       "var",
       "lib",
-      "openclaw-media-state-test",
+      "ws-agent-media-state-test",
     );
   });
 
@@ -348,7 +348,7 @@ describe("local media root guard", () => {
 
   it("allows local paths under an explicit root", async () => {
     const result = await loadWebMedia(tinyPngFile, 1024 * 1024, {
-      localRoots: [resolvePreferredOpenClawTmpDir()],
+      localRoots: [resolvePreferredWsAgentTmpDir()],
     });
     expect(result.kind).toBe("image");
   });
@@ -385,7 +385,7 @@ describe("local media root guard", () => {
     ).rejects.toMatchObject({ code: "invalid-root" });
   });
 
-  it("allows default OpenClaw state workspace and sandbox roots", async () => {
+  it("allows default WsAgent state workspace and sandbox roots", async () => {
     const stateDir = resolveStateDir();
     const readFile = vi.fn(async () => Buffer.from("generated-media"));
 
@@ -412,7 +412,7 @@ describe("local media root guard", () => {
     );
   });
 
-  it("rejects default OpenClaw state per-agent workspace-* roots without explicit local roots", async () => {
+  it("rejects default WsAgent state per-agent workspace-* roots without explicit local roots", async () => {
     const stateDir = resolveStateDir();
     const readFile = vi.fn(async () => Buffer.from("generated-media"));
 

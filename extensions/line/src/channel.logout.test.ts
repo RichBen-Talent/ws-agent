@@ -1,10 +1,10 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type {
-  OpenClawConfig,
+  WsAgentConfig,
   PluginRuntime,
   ResolvedLineAccount,
   RuntimeEnv,
-} from "openclaw/plugin-sdk";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+} from "ws-agent/plugin-sdk";
 import { linePlugin } from "./channel.js";
 import { setLineRuntime } from "./runtime.js";
 
@@ -18,7 +18,7 @@ type LineRuntimeMocks = {
 function createRuntime(): { runtime: PluginRuntime; mocks: LineRuntimeMocks } {
   const writeConfigFile = vi.fn(async () => {});
   const resolveLineAccount = vi.fn(
-    ({ cfg, accountId }: { cfg: OpenClawConfig; accountId?: string }) => {
+    ({ cfg, accountId }: { cfg: WsAgentConfig; accountId?: string }) => {
       const lineConfig = (cfg.channels?.line ?? {}) as {
         tokenFile?: string;
         secretFile?: string;
@@ -59,17 +59,17 @@ function createRuntimeEnv(): RuntimeEnv {
 
 function resolveAccount(
   resolveLineAccount: LineRuntimeMocks["resolveLineAccount"],
-  cfg: OpenClawConfig,
+  cfg: WsAgentConfig,
   accountId: string,
 ): ResolvedLineAccount {
   const resolver = resolveLineAccount as unknown as (params: {
-    cfg: OpenClawConfig;
+    cfg: WsAgentConfig;
     accountId?: string;
   }) => ResolvedLineAccount;
   return resolver({ cfg, accountId });
 }
 
-async function runLogoutScenario(params: { cfg: OpenClawConfig; accountId: string }): Promise<{
+async function runLogoutScenario(params: { cfg: WsAgentConfig; accountId: string }): Promise<{
   result: Awaited<ReturnType<NonNullable<NonNullable<typeof linePlugin.gateway>["logoutAccount"]>>>;
   mocks: LineRuntimeMocks;
 }> {
@@ -91,7 +91,7 @@ describe("linePlugin gateway.logoutAccount", () => {
   });
 
   it("clears tokenFile/secretFile on default account logout", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: WsAgentConfig = {
       channels: {
         line: {
           tokenFile: "/tmp/token",
@@ -110,7 +110,7 @@ describe("linePlugin gateway.logoutAccount", () => {
   });
 
   it("clears tokenFile/secretFile on account logout", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: WsAgentConfig = {
       channels: {
         line: {
           accounts: {
@@ -133,7 +133,7 @@ describe("linePlugin gateway.logoutAccount", () => {
   });
 
   it("does not write config when account has no token/secret fields", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: WsAgentConfig = {
       channels: {
         line: {
           accounts: {

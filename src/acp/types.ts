@@ -28,7 +28,7 @@ export type AcpServerOptions = {
 };
 
 export const ACP_AGENT_INFO = {
-  name: "openclaw-acp",
-  title: "OpenClaw ACP Gateway",
+  name: "ws-agent-acp",
+  title: "WsAgent ACP Gateway",
   version: VERSION,
 };

@@ -9,7 +9,7 @@ describe("gateway chat.inject transcript writes", () => {
   it("appends a Pi session entry that includes parentId", async () => {
     const sessionId = "sess-1";
     const { transcriptPath } = createTranscriptFixtureSync({
-      prefix: "openclaw-chat-inject-",
+      prefix: "ws-agent-chat-inject-",
       sessionId,
     });
 

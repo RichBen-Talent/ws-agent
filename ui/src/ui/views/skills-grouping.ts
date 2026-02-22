@@ -7,10 +7,10 @@ export type SkillGroup = {
 };
 
 const SKILL_SOURCE_GROUPS: Array<{ id: string; label: string; sources: string[] }> = [
-  { id: "workspace", label: "Workspace Skills", sources: ["openclaw-workspace"] },
-  { id: "built-in", label: "Built-in Skills", sources: ["openclaw-bundled"] },
-  { id: "installed", label: "Installed Skills", sources: ["openclaw-managed"] },
-  { id: "extra", label: "Extra Skills", sources: ["openclaw-extra"] },
+  { id: "workspace", label: "Workspace Skills", sources: ["ws-agent-workspace"] },
+  { id: "built-in", label: "Built-in Skills", sources: ["ws-agent-bundled"] },
+  { id: "installed", label: "Installed Skills", sources: ["ws-agent-managed"] },
+  { id: "extra", label: "Extra Skills", sources: ["ws-agent-extra"] },
 ];
 
 export function groupSkills(skills: SkillStatusEntry[]): SkillGroup[] {

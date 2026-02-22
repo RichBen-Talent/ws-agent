@@ -1,5 +1,5 @@
-import type { PluginRuntime } from "openclaw/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { PluginRuntime } from "ws-agent/plugin-sdk";
 import "./test-mocks.js";
 import { getCachedBlueBubblesPrivateApiStatus } from "./probe.js";
 import { clearBlueBubblesRuntime, setBlueBubblesRuntime } from "./runtime.js";

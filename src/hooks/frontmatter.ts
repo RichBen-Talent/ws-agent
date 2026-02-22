@@ -2,15 +2,15 @@ import { parseFrontmatterBlock } from "../markdown/frontmatter.js";
 import {
   getFrontmatterString,
   normalizeStringList,
-  parseOpenClawManifestInstallBase,
+  parseWsAgentManifestInstallBase,
   parseFrontmatterBool,
-  resolveOpenClawManifestBlock,
-  resolveOpenClawManifestInstall,
-  resolveOpenClawManifestOs,
-  resolveOpenClawManifestRequires,
+  resolveWsAgentManifestBlock,
+  resolveWsAgentManifestInstall,
+  resolveWsAgentManifestOs,
+  resolveWsAgentManifestRequires,
 } from "../shared/frontmatter.js";
 import type {
-  OpenClawHookMetadata,
+  WsAgentHookMetadata,
   HookEntry,
   HookInstallSpec,
   HookInvocationPolicy,
@@ -22,7 +22,7 @@ export function parseFrontmatter(content: string): ParsedHookFrontmatter {
 }
 
 function parseInstallSpec(input: unknown): HookInstallSpec | undefined {
-  const parsed = parseOpenClawManifestInstallBase(input, ["bundled", "npm", "git"]);
+  const parsed = parseWsAgentManifestInstallBase(input, ["bundled", "npm", "git"]);
   if (!parsed) {
     return undefined;
   }
@@ -50,16 +50,16 @@ function parseInstallSpec(input: unknown): HookInstallSpec | undefined {
   return spec;
 }
 
-export function resolveOpenClawMetadata(
+export function resolveWsAgentMetadata(
   frontmatter: ParsedHookFrontmatter,
-): OpenClawHookMetadata | undefined {
-  const metadataObj = resolveOpenClawManifestBlock({ frontmatter });
+): WsAgentHookMetadata | undefined {
+  const metadataObj = resolveWsAgentManifestBlock({ frontmatter });
   if (!metadataObj) {
     return undefined;
   }
-  const requires = resolveOpenClawManifestRequires(metadataObj);
-  const install = resolveOpenClawManifestInstall(metadataObj, parseInstallSpec);
-  const osRaw = resolveOpenClawManifestOs(metadataObj);
+  const requires = resolveWsAgentManifestRequires(metadataObj);
+  const install = resolveWsAgentManifestInstall(metadataObj, parseInstallSpec);
+  const osRaw = resolveWsAgentManifestOs(metadataObj);
   const eventsRaw = normalizeStringList(metadataObj.events);
   return {
     always: typeof metadataObj.always === "boolean" ? metadataObj.always : undefined,

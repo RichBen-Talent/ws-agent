@@ -1,5 +1,5 @@
 import type { OAuthCredentials } from "@mariozechner/pi-ai";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { WsAgentConfig } from "../../config/config.js";
 
 export type ApiKeyCredential = {
   type: "api_key";
@@ -13,7 +13,7 @@ export type ApiKeyCredential = {
 export type TokenCredential = {
   /**
    * Static bearer-style token (often OAuth access token / PAT).
-   * Not refreshable by OpenClaw (unlike `type: "oauth"`).
+   * Not refreshable by WsAgent (unlike `type: "oauth"`).
    */
   type: "token";
   provider: string;
@@ -67,7 +67,7 @@ export type AuthProfileStore = {
 };
 
 export type AuthProfileIdRepairResult = {
-  config: OpenClawConfig;
+  config: WsAgentConfig;
   changes: string[];
   migrated: boolean;
   fromProfileId?: string;

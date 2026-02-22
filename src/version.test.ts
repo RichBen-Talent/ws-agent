@@ -11,7 +11,7 @@ import {
 } from "./version.js";
 
 async function withTempDir<T>(run: (dir: string) => Promise<T>): Promise<T> {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-version-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "ws-agent-version-"));
   try {
     return await run(dir);
   } finally {
@@ -37,7 +37,7 @@ async function writeJsonFixture(root: string, relativePath: string, value: unkno
 describe("version resolution", () => {
   it("resolves package version from nested dist/plugin-sdk module URL", async () => {
     await withTempDir(async (root) => {
-      await writeJsonFixture(root, "package.json", { name: "openclaw", version: "1.2.3" });
+      await writeJsonFixture(root, "package.json", { name: "ws-agent", version: "1.2.3" });
       const moduleUrl = await ensureModuleFixture(root);
       expect(readVersionFromPackageJsonForModuleUrl(moduleUrl)).toBe("1.2.3");
       expect(resolveVersionFromModuleUrl(moduleUrl)).toBe("1.2.3");
@@ -46,7 +46,7 @@ describe("version resolution", () => {
 
   it("ignores unrelated nearby package.json files", async () => {
     await withTempDir(async (root) => {
-      await writeJsonFixture(root, "package.json", { name: "openclaw", version: "2.3.4" });
+      await writeJsonFixture(root, "package.json", { name: "ws-agent", version: "2.3.4" });
       await writeJsonFixture(root, "dist/package.json", {
         name: "other-package",
         version: "9.9.9",
@@ -75,7 +75,7 @@ describe("version resolution", () => {
     });
   });
 
-  it("ignores non-openclaw package and blank build-info versions", async () => {
+  it("ignores non-ws-agent package and blank build-info versions", async () => {
     await withTempDir(async (root) => {
       await writeJsonFixture(root, "package.json", { name: "other-package", version: "9.9.9" });
       await writeJsonFixture(root, "build-info.json", { version: "  " });
@@ -92,11 +92,11 @@ describe("version resolution", () => {
     expect(resolveVersionFromModuleUrl("not-a-valid-url")).toBeNull();
   });
 
-  it("prefers OPENCLAW_VERSION over service and package versions", () => {
+  it("prefers WS_AGENT_VERSION over service and package versions", () => {
     expect(
       resolveRuntimeServiceVersion({
-        OPENCLAW_VERSION: "9.9.9",
-        OPENCLAW_SERVICE_VERSION: "2.2.2",
+        WS_AGENT_VERSION: "9.9.9",
+        WS_AGENT_SERVICE_VERSION: "2.2.2",
         npm_package_version: "1.1.1",
       }),
     ).toBe("9.9.9");
@@ -105,16 +105,16 @@ describe("version resolution", () => {
   it("uses service and package fallbacks and ignores blank env values", () => {
     expect(
       resolveRuntimeServiceVersion({
-        OPENCLAW_VERSION: "   ",
-        OPENCLAW_SERVICE_VERSION: "  2.0.0  ",
+        WS_AGENT_VERSION: "   ",
+        WS_AGENT_SERVICE_VERSION: "  2.0.0  ",
         npm_package_version: "1.0.0",
       }),
     ).toBe("2.0.0");
 
     expect(
       resolveRuntimeServiceVersion({
-        OPENCLAW_VERSION: " ",
-        OPENCLAW_SERVICE_VERSION: "\t",
+        WS_AGENT_VERSION: " ",
+        WS_AGENT_SERVICE_VERSION: "\t",
         npm_package_version: " 1.0.0-package ",
       }),
     ).toBe("1.0.0-package");
@@ -122,8 +122,8 @@ describe("version resolution", () => {
     expect(
       resolveRuntimeServiceVersion(
         {
-          OPENCLAW_VERSION: "",
-          OPENCLAW_SERVICE_VERSION: " ",
+          WS_AGENT_VERSION: "",
+          WS_AGENT_SERVICE_VERSION: " ",
           npm_package_version: "",
         },
         "fallback",

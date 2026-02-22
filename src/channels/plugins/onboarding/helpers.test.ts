@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { WsAgentConfig } from "../../../config/config.js";
 import { DEFAULT_ACCOUNT_ID } from "../../../routing/session-key.js";
 
 const promptAccountIdSdkMock = vi.hoisted(() => vi.fn(async () => "default"));
@@ -124,7 +124,7 @@ describe("promptResolvedAllowFrom", () => {
 
 describe("setAccountAllowFromForChannel", () => {
   it("writes allowFrom on default account channel config", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: WsAgentConfig = {
       channels: {
         imessage: {
           enabled: true,
@@ -148,7 +148,7 @@ describe("setAccountAllowFromForChannel", () => {
   });
 
   it("writes allowFrom on nested non-default account config", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: WsAgentConfig = {
       channels: {
         signal: {
           enabled: true,
@@ -175,7 +175,7 @@ describe("setAccountAllowFromForChannel", () => {
 
 describe("setChannelDmPolicyWithAllowFrom", () => {
   it("adds wildcard allowFrom when setting dmPolicy=open", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: WsAgentConfig = {
       channels: {
         signal: {
           dmPolicy: "pairing",
@@ -195,7 +195,7 @@ describe("setChannelDmPolicyWithAllowFrom", () => {
   });
 
   it("sets dmPolicy without changing allowFrom for non-open policies", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: WsAgentConfig = {
       channels: {
         imessage: {
           dmPolicy: "open",

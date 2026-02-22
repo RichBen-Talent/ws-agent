@@ -1,9 +1,9 @@
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { WsAgentConfig } from "../../../config/config.js";
 import type { RuntimeEnv } from "../../../runtime.js";
 import type { OnboardOptions } from "../../onboard-types.js";
 
 export function applyNonInteractiveSkillsConfig(params: {
-  nextConfig: OpenClawConfig;
+  nextConfig: WsAgentConfig;
   opts: OnboardOptions;
   runtime: RuntimeEnv;
 }) {

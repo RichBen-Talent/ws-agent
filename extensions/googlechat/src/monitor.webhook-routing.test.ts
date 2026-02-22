@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 import type { IncomingMessage } from "node:http";
-import type { OpenClawConfig, PluginRuntime } from "openclaw/plugin-sdk";
 import { describe, expect, it, vi } from "vitest";
+import type { WsAgentConfig, PluginRuntime } from "ws-agent/plugin-sdk";
 import { createMockServerResponse } from "../../../src/test-utils/mock-http-response.js";
 import type { ResolvedGoogleChatAccount } from "./accounts.js";
 import { verifyGoogleChatRequest } from "./auth.js";
@@ -54,7 +54,7 @@ function registerTwoTargets() {
   const sinkA = vi.fn();
   const sinkB = vi.fn();
   const core = {} as PluginRuntime;
-  const config = {} as OpenClawConfig;
+  const config = {} as WsAgentConfig;
 
   const unregisterA = registerGoogleChatWebhookTarget({
     account: baseAccount("A"),

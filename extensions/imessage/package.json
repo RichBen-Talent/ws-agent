@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/imessage",
+  "name": "@ws-agent/imessage",
   "version": "2026.2.22",
   "private": true,
-  "description": "OpenClaw iMessage channel plugin",
+  "description": "WsAgent iMessage channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "ws-agent": "workspace:*"
   },
-  "openclaw": {
+  "ws-agent": {
     "extensions": [
       "./index.ts"
     ]

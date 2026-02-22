@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { beforeAll, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { WsAgentConfig } from "../config/config.js";
 import {
   getRunEmbeddedPiAgentMock,
   installTriggerHandlingE2eTestHooks,
@@ -53,12 +53,12 @@ describe("trigger handling", () => {
         agents: {
           defaults: {
             model: "anthropic/claude-opus-4-5",
-            workspace: join(home, "openclaw"),
+            workspace: join(home, "ws-agent"),
           },
         },
         tools: { elevated: { allowFrom: { discord: ["steipete"] } } },
         session: { store: join(home, "sessions.json") },
-      } as OpenClawConfig;
+      } as WsAgentConfig;
 
       const res = await getReplyFromConfig(
         {
@@ -87,7 +87,7 @@ describe("trigger handling", () => {
         agents: {
           defaults: {
             model: "anthropic/claude-opus-4-5",
-            workspace: join(home, "openclaw"),
+            workspace: join(home, "ws-agent"),
           },
         },
         tools: {
@@ -96,7 +96,7 @@ describe("trigger handling", () => {
           },
         },
         session: { store: join(home, "sessions.json") },
-      } as OpenClawConfig;
+      } as WsAgentConfig;
 
       const res = await getReplyFromConfig(
         {

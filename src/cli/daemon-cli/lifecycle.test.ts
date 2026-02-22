@@ -66,7 +66,7 @@ describe("runDaemonRestart health checks", () => {
     loadConfig.mockClear();
 
     service.readCommand.mockResolvedValue({
-      programArguments: ["openclaw", "gateway", "--port", "18789"],
+      programArguments: ["ws-agent", "gateway", "--port", "18789"],
       environment: {},
     });
 

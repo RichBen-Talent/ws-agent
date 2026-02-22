@@ -1,6 +1,5 @@
 import { loadConfig } from "../../config/config.js";
 import { extractDeliveryInfo } from "../../config/sessions.js";
-import { resolveOpenClawPackageRoot } from "../../infra/openclaw-root.js";
 import {
   formatDoctorNonInteractiveHint,
   type RestartSentinelPayload,
@@ -9,6 +8,7 @@ import {
 import { scheduleGatewaySigusr1Restart } from "../../infra/restart.js";
 import { normalizeUpdateChannel } from "../../infra/update-channels.js";
 import { runGatewayUpdate } from "../../infra/update-runner.js";
+import { resolveWsAgentPackageRoot } from "../../infra/ws-agent-root.js";
 import { formatControlPlaneActor, resolveControlPlaneActor } from "../control-plane-audit.js";
 import { validateUpdateRunParams } from "../protocol/index.js";
 import { parseRestartRequestParams } from "./restart-request.js";
@@ -34,7 +34,7 @@ export const updateHandlers: GatewayRequestHandlers = {
       const config = loadConfig();
       const configChannel = normalizeUpdateChannel(config.update?.channel);
       const root =
-        (await resolveOpenClawPackageRoot({
+        (await resolveWsAgentPackageRoot({
           moduleUrl: import.meta.url,
           argv1: process.argv[1],
           cwd: process.cwd(),

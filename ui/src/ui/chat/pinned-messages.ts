@@ -1,4 +1,4 @@
-const PREFIX = "openclaw:pinned:";
+const PREFIX = "ws-agent:pinned:";
 
 export class PinnedMessages {
   private key: string;

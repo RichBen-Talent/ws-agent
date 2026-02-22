@@ -1,0 +1,26 @@
+# WsAgent gateway — Podman Quadlet (rootless)
+# Installed by setup-podman.sh into ws-agent's ~/.config/containers/systemd/
+# {{WS_AGENT_HOME}} is replaced at install time.
+
+[Unit]
+Description=WsAgent gateway (rootless Podman)
+
+[Container]
+Image=ws-agent:local
+ContainerName=ws-agent
+UserNS=keep-id
+Volume={{WS_AGENT_HOME}}/.ws-agent:/home/node/.ws-agent
+EnvironmentFile={{WS_AGENT_HOME}}/.ws-agent/.env
+Environment=HOME=/home/node
+Environment=TERM=xterm-256color
+PublishPort=18789:18789
+PublishPort=18790:18790
+Pull=never
+Exec=node dist/index.js gateway --bind lan --port 18789
+
+[Service]
+TimeoutStartSec=300
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

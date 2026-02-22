@@ -8,17 +8,17 @@ plugins {
 }
 
 android {
-  namespace = "ai.openclaw.android"
+  namespace = "ai.wsagent.android"
   compileSdk = 36
 
   sourceSets {
     getByName("main") {
-      assets.srcDir(file("../../shared/OpenClawKit/Sources/OpenClawKit/Resources"))
+      assets.srcDir(file("../../shared/WsAgentKit/Sources/WsAgentKit/Resources"))
     }
   }
 
   defaultConfig {
-    applicationId = "ai.openclaw.android"
+    applicationId = "ai.wsagent.android"
     minSdk = 31
     targetSdk = 36
     versionCode = 202602210
@@ -84,7 +84,7 @@ androidComponents {
         val versionName = output.versionName.orNull ?: "0"
         val buildType = variant.buildType
 
-        val outputFileName = "openclaw-${versionName}-${buildType}.apk"
+        val outputFileName = "ws-agent-${versionName}-${buildType}.apk"
         output.outputFileName = outputFileName
       }
   }

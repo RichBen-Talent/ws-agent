@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk";
 import { describe, expect, it } from "vitest";
+import type { WsAgentConfig } from "ws-agent/plugin-sdk";
 import { twitchPlugin } from "./plugin.js";
 
 describe("twitchPlugin.status.buildAccountSnapshot", () => {
@@ -27,7 +27,7 @@ describe("twitchPlugin.status.buildAccountSnapshot", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as WsAgentConfig;
 
     const snapshot = await twitchPlugin.status?.buildAccountSnapshot?.({
       account: secondary,

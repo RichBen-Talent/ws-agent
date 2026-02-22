@@ -2,10 +2,10 @@ import {
   createReplyPrefixContext,
   createTypingCallbacks,
   logTypingFailure,
-  type ClawdbotConfig,
+  type WsAgentConfig,
   type ReplyPayload,
   type RuntimeEnv,
-} from "openclaw/plugin-sdk";
+} from "ws-agent/plugin-sdk";
 import { resolveFeishuAccount } from "./accounts.js";
 import { createFeishuClient } from "./client.js";
 import type { MentionTarget } from "./mention.js";
@@ -22,7 +22,7 @@ function shouldUseCard(text: string): boolean {
 }
 
 export type CreateFeishuReplyDispatcherParams = {
-  cfg: ClawdbotConfig;
+  cfg: WsAgentConfig;
   agentId: string;
   runtime: RuntimeEnv;
   chatId: string;

@@ -39,7 +39,7 @@ Discord thread binding controls:
 - The spawn command is non-blocking; it returns a run id immediately.
 - On completion, the sub-agent announces a summary/result message back to the requester chat channel.
 - For manual spawns, delivery is resilient:
-  - OpenClaw tries direct `agent` delivery first with a stable idempotency key.
+  - WsAgent tries direct `agent` delivery first with a stable idempotency key.
   - If direct delivery fails, it falls back to queue routing.
   - If queue routing is still not available, the announce is retried with a short exponential backoff before final give-up.
 - The completion message is a system message and includes:
@@ -92,7 +92,7 @@ When thread bindings are enabled, a sub-agent can stay bound to a Discord thread
 Quick flow:
 
 1. Spawn with `sessions_spawn` using `thread: true` (and optionally `mode: "session"`).
-2. OpenClaw creates or binds a Discord thread to that session target.
+2. WsAgent creates or binds a Discord thread to that session target.
 3. Replies and follow-up messages in that thread route to the bound session.
 4. Use `/session ttl` to inspect/update auto-unfocus TTL.
 5. Use `/unfocus` to detach manually.

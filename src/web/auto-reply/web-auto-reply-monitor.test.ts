@@ -11,7 +11,7 @@ let sessionDir: string | undefined;
 let sessionStorePath: string;
 
 beforeEach(async () => {
-  sessionDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-group-gating-"));
+  sessionDir = await fs.mkdtemp(path.join(os.tmpdir(), "ws-agent-group-gating-"));
   sessionStorePath = path.join(sessionDir, "sessions.json");
   await fs.writeFile(sessionStorePath, "{}");
 });
@@ -85,7 +85,7 @@ function createGroupMessage(overrides: Record<string, unknown> = {}) {
 
 function makeInboundCfg(messagePrefix = "") {
   return {
-    agents: { defaults: { workspace: "/tmp/openclaw" } },
+    agents: { defaults: { workspace: "/tmp/ws-agent" } },
     channels: { whatsapp: { messagePrefix } },
   } as never;
 }
@@ -254,7 +254,7 @@ describe("applyGroupGating", () => {
           groups: { "*": { requireMention: false } },
         },
       },
-      messages: { groupChat: { mentionPatterns: ["@openclaw"] } },
+      messages: { groupChat: { mentionPatterns: ["@ws-agent"] } },
     });
 
     const { result } = runGroupGating({

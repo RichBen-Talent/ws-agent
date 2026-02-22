@@ -1,7 +1,7 @@
 import { createServer, type RequestListener } from "node:http";
 import type { AddressInfo } from "node:net";
-import type { OpenClawConfig, PluginRuntime } from "openclaw/plugin-sdk";
 import { describe, expect, it, vi } from "vitest";
+import type { WsAgentConfig, PluginRuntime } from "ws-agent/plugin-sdk";
 import { handleZaloWebhookRequest, registerZaloWebhookTarget } from "./monitor.js";
 import type { ResolvedZaloAccount } from "./types.js";
 
@@ -45,7 +45,7 @@ function registerTarget(params: {
   return registerZaloWebhookTarget({
     token: "tok",
     account: DEFAULT_ACCOUNT,
-    config: {} as OpenClawConfig,
+    config: {} as WsAgentConfig,
     runtime: {},
     core: {} as PluginRuntime,
     secret: params.secret ?? "secret",

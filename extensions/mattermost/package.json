@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/mattermost",
+  "name": "@ws-agent/mattermost",
   "version": "2026.2.22",
-  "description": "OpenClaw Mattermost channel plugin",
+  "description": "WsAgent Mattermost channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "ws-agent": "workspace:*"
   },
-  "openclaw": {
+  "ws-agent": {
     "extensions": [
       "./index.ts"
     ],
@@ -20,7 +20,7 @@
       "order": 65
     },
     "install": {
-      "npmSpec": "@openclaw/mattermost",
+      "npmSpec": "@ws-agent/mattermost",
       "localPath": "extensions/mattermost",
       "defaultChoice": "npm"
     }

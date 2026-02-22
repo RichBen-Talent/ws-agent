@@ -54,7 +54,7 @@ vi.mock("node:child_process", async (importOriginal) => {
       } else if (
         args[0] === "inspect" &&
         args[1] === "-f" &&
-        args[2]?.includes('index .Config.Labels "openclaw.configHash"')
+        args[2]?.includes('index .Config.Labels "ws-agent.configHash"')
       ) {
         stdout = `${spawnState.labelHash}\n`;
       } else if (
@@ -88,9 +88,9 @@ function createSandboxConfig(dns: string[]): SandboxConfig {
     mode: "all",
     scope: "shared",
     workspaceAccess: "rw",
-    workspaceRoot: "~/.openclaw/sandboxes",
+    workspaceRoot: "~/.ws-agent/sandboxes",
     docker: {
-      image: "openclaw-sandbox:test",
+      image: "ws-agent-sandbox:test",
       containerPrefix: "oc-test-",
       workdir: "/workspace",
       readOnlyRoot: true,
@@ -104,9 +104,9 @@ function createSandboxConfig(dns: string[]): SandboxConfig {
     },
     browser: {
       enabled: false,
-      image: "openclaw-browser:test",
+      image: "ws-agent-browser:test",
       containerPrefix: "oc-browser-",
-      network: "openclaw-sandbox-browser",
+      network: "ws-agent-sandbox-browser",
       cdpPort: 9222,
       vncPort: 5900,
       noVncPort: 6080,
@@ -181,7 +181,7 @@ describe("ensureSandboxContainer config-hash recreation", () => {
     ).toBe(true);
     const createCall = dockerCalls.find((call) => call.args[0] === "create");
     expect(createCall).toBeDefined();
-    expect(createCall?.args).toContain(`openclaw.configHash=${newHash}`);
+    expect(createCall?.args).toContain(`ws-agent.configHash=${newHash}`);
     expect(registryMocks.updateRegistry).toHaveBeenCalledWith(
       expect.objectContaining({
         containerName: "oc-test-shared",

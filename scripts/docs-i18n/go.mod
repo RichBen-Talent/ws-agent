@@ -1,4 +1,4 @@
-module github.com/openclaw/openclaw/scripts/docs-i18n
+module github.com/ws-agent/ws-agent/scripts/docs-i18n
 
 go 1.24.0
 

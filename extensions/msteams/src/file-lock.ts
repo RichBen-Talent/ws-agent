@@ -1,1 +1,1 @@
-export { withFileLock } from "openclaw/plugin-sdk";
+export { withFileLock } from "ws-agent/plugin-sdk";

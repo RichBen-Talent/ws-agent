@@ -3,15 +3,15 @@ import { parseFrontmatterBlock } from "../../markdown/frontmatter.js";
 import {
   getFrontmatterString,
   normalizeStringList,
-  parseOpenClawManifestInstallBase,
+  parseWsAgentManifestInstallBase,
   parseFrontmatterBool,
-  resolveOpenClawManifestBlock,
-  resolveOpenClawManifestInstall,
-  resolveOpenClawManifestOs,
-  resolveOpenClawManifestRequires,
+  resolveWsAgentManifestBlock,
+  resolveWsAgentManifestInstall,
+  resolveWsAgentManifestOs,
+  resolveWsAgentManifestRequires,
 } from "../../shared/frontmatter.js";
 import type {
-  OpenClawSkillMetadata,
+  WsAgentSkillMetadata,
   ParsedSkillFrontmatter,
   SkillEntry,
   SkillInstallSpec,
@@ -23,7 +23,7 @@ export function parseFrontmatter(content: string): ParsedSkillFrontmatter {
 }
 
 function parseInstallSpec(input: unknown): SkillInstallSpec | undefined {
-  const parsed = parseOpenClawManifestInstallBase(input, ["brew", "node", "go", "uv", "download"]);
+  const parsed = parseWsAgentManifestInstallBase(input, ["brew", "node", "go", "uv", "download"]);
   if (!parsed) {
     return undefined;
   }
@@ -78,16 +78,16 @@ function parseInstallSpec(input: unknown): SkillInstallSpec | undefined {
   return spec;
 }
 
-export function resolveOpenClawMetadata(
+export function resolveWsAgentMetadata(
   frontmatter: ParsedSkillFrontmatter,
-): OpenClawSkillMetadata | undefined {
-  const metadataObj = resolveOpenClawManifestBlock({ frontmatter });
+): WsAgentSkillMetadata | undefined {
+  const metadataObj = resolveWsAgentManifestBlock({ frontmatter });
   if (!metadataObj) {
     return undefined;
   }
-  const requires = resolveOpenClawManifestRequires(metadataObj);
-  const install = resolveOpenClawManifestInstall(metadataObj, parseInstallSpec);
-  const osRaw = resolveOpenClawManifestOs(metadataObj);
+  const requires = resolveWsAgentManifestRequires(metadataObj);
+  const install = resolveWsAgentManifestInstall(metadataObj, parseInstallSpec);
+  const osRaw = resolveWsAgentManifestOs(metadataObj);
   return {
     always: typeof metadataObj.always === "boolean" ? metadataObj.always : undefined,
     emoji: typeof metadataObj.emoji === "string" ? metadataObj.emoji : undefined,

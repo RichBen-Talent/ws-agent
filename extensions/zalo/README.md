@@ -1,17 +1,17 @@
-# @openclaw/zalo
+# @ws-agent/zalo
 
-Zalo channel plugin for OpenClaw (Bot API).
+Zalo channel plugin for WsAgent (Bot API).
 
 ## Install (local checkout)
 
 ```bash
-openclaw plugins install ./extensions/zalo
+ws-agent plugins install ./extensions/zalo
 ```
 
 ## Install (npm)
 
 ```bash
-openclaw plugins install @openclaw/zalo
+ws-agent plugins install @ws-agent/zalo
 ```
 
 Onboarding: select Zalo and confirm the install prompt to fetch the plugin automatically.

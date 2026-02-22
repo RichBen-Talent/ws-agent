@@ -1,7 +1,7 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk";
 import { expect, vi } from "vitest";
+import type { WsAgentConfig } from "ws-agent/plugin-sdk";
 
-export function createMattermostTestConfig(): OpenClawConfig {
+export function createMattermostTestConfig(): WsAgentConfig {
   return {
     channels: {
       mattermost: {

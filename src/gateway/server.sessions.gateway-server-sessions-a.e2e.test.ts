@@ -104,7 +104,7 @@ afterAll(async () => {
 const openClient = async (opts?: Parameters<typeof connectOk>[1]) => await harness.openClient(opts);
 
 async function createSessionStoreDir() {
-  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sessions-"));
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "ws-agent-sessions-"));
   const storePath = path.join(dir, "sessions.json");
   testState.sessionStorePath = storePath;
   return { dir, storePath };
@@ -471,7 +471,7 @@ describe("gateway server sessions", () => {
   });
 
   test("sessions.preview returns transcript previews", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sessions-preview-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "ws-agent-sessions-preview-"));
     const storePath = path.join(dir, "sessions.json");
     testState.sessionStorePath = storePath;
     const sessionId = "sess-preview";
@@ -497,7 +497,7 @@ describe("gateway server sessions", () => {
   });
 
   test("sessions.preview resolves legacy mixed-case main alias with custom mainKey", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sessions-preview-alias-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "ws-agent-sessions-preview-alias-"));
     const storePath = path.join(dir, "sessions.json");
     testState.sessionStorePath = storePath;
     testState.agentsConfig = { list: [{ id: "ops", default: true }] };
@@ -532,7 +532,7 @@ describe("gateway server sessions", () => {
   });
 
   test("sessions.resolve and mutators clean legacy main-alias ghost keys", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sessions-cleanup-alias-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "ws-agent-sessions-cleanup-alias-"));
     const storePath = path.join(dir, "sessions.json");
     testState.sessionStorePath = storePath;
     testState.agentsConfig = { list: [{ id: "ops", default: true }] };
@@ -1043,7 +1043,7 @@ describe("gateway server sessions", () => {
   });
 
   test("webchat clients cannot patch or delete sessions", async () => {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sessions-webchat-"));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), "ws-agent-sessions-webchat-"));
     const storePath = path.join(dir, "sessions.json");
     testState.sessionStorePath = storePath;
 

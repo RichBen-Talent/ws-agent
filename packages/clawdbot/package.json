@@ -1,16 +1,16 @@
 {
-  "name": "clawdbot",
+  "name": "ws-agent",
   "version": "2026.2.12",
-  "description": "Compatibility shim that forwards to openclaw",
+  "description": "Compatibility shim that forwards to ws-agent",
   "bin": {
-    "clawdbot": "./bin/clawdbot.js"
+    "ws-agent": "./bin/ws-agent.js"
   },
   "type": "module",
   "exports": {
     ".": "./index.js",
-    "./cli-entry": "./bin/clawdbot.js"
+    "./cli-entry": "./bin/ws-agent.js"
   },
   "dependencies": {
-    "openclaw": "workspace:*"
+    "ws-agent": "workspace:*"
   }
 }

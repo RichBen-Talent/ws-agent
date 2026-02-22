@@ -1,5 +1,5 @@
-import type { PluginRuntime, RuntimeEnv } from "openclaw/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { PluginRuntime, RuntimeEnv } from "ws-agent/plugin-sdk";
 import { matrixPlugin } from "./channel.js";
 import { setMatrixRuntime } from "./runtime.js";
 import type { CoreConfig } from "./types.js";

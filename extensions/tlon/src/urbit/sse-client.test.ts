@@ -1,5 +1,5 @@
-import type { LookupFn } from "openclaw/plugin-sdk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import type { LookupFn } from "ws-agent/plugin-sdk";
 import { UrbitSSEClient } from "./sse-client.js";
 
 const mockFetch = vi.fn();

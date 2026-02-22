@@ -4,7 +4,7 @@ import {
   getFrontmatterString,
   normalizeStringList,
   parseFrontmatterBool,
-  resolveOpenClawManifestBlock,
+  resolveWsAgentManifestBlock,
 } from "./frontmatter.js";
 import { resolveNodeIdFromCandidates } from "./node-match.js";
 
@@ -66,20 +66,18 @@ describe("shared/frontmatter", () => {
     expect(parseFrontmatterBool(undefined, true)).toBe(true);
   });
 
-  test("resolveOpenClawManifestBlock parses JSON5 metadata and picks openclaw block", () => {
+  test("resolveWsAgentManifestBlock parses JSON5 metadata and picks ws-agent block", () => {
     const frontmatter = {
-      metadata: "{ openclaw: { foo: 1, bar: 'baz' } }",
+      metadata: "{ \"ws-agent\": { foo: 1, bar: 'baz' } }",
     };
-    expect(resolveOpenClawManifestBlock({ frontmatter })).toEqual({ foo: 1, bar: "baz" });
+    expect(resolveWsAgentManifestBlock({ frontmatter })).toEqual({ foo: 1, bar: "baz" });
   });
 
-  test("resolveOpenClawManifestBlock returns undefined for invalid input", () => {
-    expect(resolveOpenClawManifestBlock({ frontmatter: {} })).toBeUndefined();
+  test("resolveWsAgentManifestBlock returns undefined for invalid input", () => {
+    expect(resolveWsAgentManifestBlock({ frontmatter: {} })).toBeUndefined();
+    expect(resolveWsAgentManifestBlock({ frontmatter: { metadata: "not-json5" } })).toBeUndefined();
     expect(
-      resolveOpenClawManifestBlock({ frontmatter: { metadata: "not-json5" } }),
-    ).toBeUndefined();
-    expect(
-      resolveOpenClawManifestBlock({ frontmatter: { metadata: "{ nope: { a: 1 } }" } }),
+      resolveWsAgentManifestBlock({ frontmatter: { metadata: "{ nope: { a: 1 } }" } }),
     ).toBeUndefined();
   });
 });

@@ -2,8 +2,8 @@ import type {
   AllowlistMatch,
   ChannelGroupContext,
   GroupToolPolicyConfig,
-} from "openclaw/plugin-sdk";
-import { resolveAllowlistMatchSimple } from "openclaw/plugin-sdk";
+} from "ws-agent/plugin-sdk";
+import { resolveAllowlistMatchSimple } from "ws-agent/plugin-sdk";
 import type { FeishuConfig, FeishuGroupConfig } from "./types.js";
 
 export type FeishuAllowlistMatch = AllowlistMatch<"wildcard" | "id" | "name">;

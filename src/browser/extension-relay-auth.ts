@@ -1,13 +1,12 @@
 import { createHmac } from "node:crypto";
 import { loadConfig } from "../config/config.js";
 
-const RELAY_TOKEN_CONTEXT = "openclaw-extension-relay-v1";
+const RELAY_TOKEN_CONTEXT = "ws-agent-extension-relay-v1";
 const DEFAULT_RELAY_PROBE_TIMEOUT_MS = 500;
-const OPENCLAW_RELAY_BROWSER = "OpenClaw/extension-relay";
+const WS_AGENT_RELAY_BROWSER = "WsAgent/extension-relay";
 
 function resolveGatewayAuthToken(): string | null {
-  const envToken =
-    process.env.OPENCLAW_GATEWAY_TOKEN?.trim() || process.env.CLAWDBOT_GATEWAY_TOKEN?.trim();
+  const envToken = process.env.WS_AGENT_GATEWAY_TOKEN?.trim();
   if (envToken) {
     return envToken;
   }
@@ -33,11 +32,11 @@ export function resolveRelayAuthTokenForPort(port: number): string {
     return deriveRelayAuthToken(gatewayToken, port);
   }
   throw new Error(
-    "extension relay requires gateway auth token (set gateway.auth.token or OPENCLAW_GATEWAY_TOKEN)",
+    "extension relay requires gateway auth token (set gateway.auth.token or WS_AGENT_GATEWAY_TOKEN)",
   );
 }
 
-export async function probeAuthenticatedOpenClawRelay(params: {
+export async function probeAuthenticatedWsAgentRelay(params: {
   baseUrl: string;
   relayAuthHeader: string;
   relayAuthToken: string;
@@ -56,7 +55,7 @@ export async function probeAuthenticatedOpenClawRelay(params: {
     }
     const body = (await res.json()) as { Browser?: unknown };
     const browserName = typeof body?.Browser === "string" ? body.Browser.trim() : "";
-    return browserName === OPENCLAW_RELAY_BROWSER;
+    return browserName === WS_AGENT_RELAY_BROWSER;
   } catch {
     return false;
   } finally {

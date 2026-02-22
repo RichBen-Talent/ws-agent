@@ -1,5 +1,5 @@
 import { buildModelAliasIndex, resolveModelRefFromString } from "../../agents/model-selection.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { WsAgentConfig } from "../../config/config.js";
 import { loadConfig } from "../../config/config.js";
 import { logConfigUpdated } from "../../config/logging.js";
 import type { RuntimeEnv } from "../../runtime.js";
@@ -16,15 +16,15 @@ import {
 
 type DefaultsFallbackKey = "model" | "imageModel";
 
-function getFallbacks(cfg: OpenClawConfig, key: DefaultsFallbackKey): string[] {
+function getFallbacks(cfg: WsAgentConfig, key: DefaultsFallbackKey): string[] {
   const entry = cfg.agents?.defaults?.[key] as unknown as PrimaryFallbackConfig | undefined;
   return entry?.fallbacks ?? [];
 }
 
 function patchDefaultsFallbacks(
-  cfg: OpenClawConfig,
+  cfg: WsAgentConfig,
   params: { key: DefaultsFallbackKey; fallbacks: string[]; models?: Record<string, unknown> },
-): OpenClawConfig {
+): WsAgentConfig {
   const existing = cfg.agents?.defaults?.[params.key] as unknown as
     | PrimaryFallbackConfig
     | undefined;

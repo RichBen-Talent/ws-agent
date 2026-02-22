@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { WsAgentConfig } from "../config/config.js";
 import type { AgentModelEntryConfig } from "../config/types.agent-defaults.js";
 import type {
   ModelApi,
@@ -18,12 +18,12 @@ function extractAgentDefaultModelFallbacks(model: unknown): string[] | undefined
 }
 
 export function applyOnboardAuthAgentModelsAndProviders(
-  cfg: OpenClawConfig,
+  cfg: WsAgentConfig,
   params: {
     agentModels: Record<string, AgentModelEntryConfig>;
     providers: Record<string, ModelProviderConfig>;
   },
-): OpenClawConfig {
+): WsAgentConfig {
   return {
     ...cfg,
     agents: {
@@ -40,10 +40,7 @@ export function applyOnboardAuthAgentModelsAndProviders(
   };
 }
 
-export function applyAgentDefaultModelPrimary(
-  cfg: OpenClawConfig,
-  primary: string,
-): OpenClawConfig {
+export function applyAgentDefaultModelPrimary(cfg: WsAgentConfig, primary: string): WsAgentConfig {
   const existingFallbacks = extractAgentDefaultModelFallbacks(cfg.agents?.defaults?.model);
   return {
     ...cfg,
@@ -61,7 +58,7 @@ export function applyAgentDefaultModelPrimary(
 }
 
 export function applyProviderConfigWithDefaultModels(
-  cfg: OpenClawConfig,
+  cfg: WsAgentConfig,
   params: {
     agentModels: Record<string, AgentModelEntryConfig>;
     providerId: string;
@@ -70,7 +67,7 @@ export function applyProviderConfigWithDefaultModels(
     defaultModels: ModelDefinitionConfig[];
     defaultModelId?: string;
   },
-): OpenClawConfig {
+): WsAgentConfig {
   const providers = { ...cfg.models?.providers } as Record<string, ModelProviderConfig>;
   const existingProvider = providers[params.providerId] as ModelProviderConfig | undefined;
 
@@ -104,7 +101,7 @@ export function applyProviderConfigWithDefaultModels(
 }
 
 export function applyProviderConfigWithDefaultModel(
-  cfg: OpenClawConfig,
+  cfg: WsAgentConfig,
   params: {
     agentModels: Record<string, AgentModelEntryConfig>;
     providerId: string;
@@ -113,7 +110,7 @@ export function applyProviderConfigWithDefaultModel(
     defaultModel: ModelDefinitionConfig;
     defaultModelId?: string;
   },
-): OpenClawConfig {
+): WsAgentConfig {
   return applyProviderConfigWithDefaultModels(cfg, {
     agentModels: params.agentModels,
     providerId: params.providerId,
@@ -125,7 +122,7 @@ export function applyProviderConfigWithDefaultModel(
 }
 
 export function applyProviderConfigWithModelCatalog(
-  cfg: OpenClawConfig,
+  cfg: WsAgentConfig,
   params: {
     agentModels: Record<string, AgentModelEntryConfig>;
     providerId: string;
@@ -133,7 +130,7 @@ export function applyProviderConfigWithModelCatalog(
     baseUrl: string;
     catalogModels: ModelDefinitionConfig[];
   },
-): OpenClawConfig {
+): WsAgentConfig {
   const providers = { ...cfg.models?.providers } as Record<string, ModelProviderConfig>;
   const existingProvider = providers[params.providerId] as ModelProviderConfig | undefined;
   const existingModels: ModelDefinitionConfig[] = Array.isArray(existingProvider?.models)

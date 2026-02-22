@@ -73,9 +73,9 @@ export {
 } from "../discord/monitor/thread-bindings.js";
 export type {
   AnyAgentTool,
-  OpenClawPluginApi,
-  OpenClawPluginService,
-  OpenClawPluginServiceContext,
+  WsAgentPluginApi,
+  WsAgentPluginService,
+  WsAgentPluginServiceContext,
   ProviderAuthContext,
   ProviderAuthResult,
 } from "../plugins/types.js";
@@ -88,9 +88,7 @@ export type { PluginRuntime, RuntimeLogger } from "../plugins/runtime/types.js";
 export { normalizePluginHttpPath } from "../plugins/http-path.js";
 export { registerPluginHttpRoute } from "../plugins/http-registry.js";
 export { emptyPluginConfigSchema } from "../plugins/config-schema.js";
-export type { OpenClawConfig } from "../config/config.js";
-/** @deprecated Use OpenClawConfig instead */
-export type { OpenClawConfig as ClawdbotConfig } from "../config/config.js";
+export type { WsAgentConfig } from "../config/config.js";
 
 export type { FileLockHandle, FileLockOptions } from "./file-lock.js";
 export { acquireFileLock, withFileLock } from "./file-lock.js";

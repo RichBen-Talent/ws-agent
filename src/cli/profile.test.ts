@@ -7,7 +7,7 @@ describe("parseCliProfileArgs", () => {
   it("leaves gateway --dev for subcommands", () => {
     const res = parseCliProfileArgs([
       "node",
-      "openclaw",
+      "ws-agent",
       "gateway",
       "--dev",
       "--allow-unconfigured",
@@ -16,35 +16,35 @@ describe("parseCliProfileArgs", () => {
       throw new Error(res.error);
     }
     expect(res.profile).toBeNull();
-    expect(res.argv).toEqual(["node", "openclaw", "gateway", "--dev", "--allow-unconfigured"]);
+    expect(res.argv).toEqual(["node", "ws-agent", "gateway", "--dev", "--allow-unconfigured"]);
   });
 
   it("still accepts global --dev before subcommand", () => {
-    const res = parseCliProfileArgs(["node", "openclaw", "--dev", "gateway"]);
+    const res = parseCliProfileArgs(["node", "ws-agent", "--dev", "gateway"]);
     if (!res.ok) {
       throw new Error(res.error);
     }
     expect(res.profile).toBe("dev");
-    expect(res.argv).toEqual(["node", "openclaw", "gateway"]);
+    expect(res.argv).toEqual(["node", "ws-agent", "gateway"]);
   });
 
   it("parses --profile value and strips it", () => {
-    const res = parseCliProfileArgs(["node", "openclaw", "--profile", "work", "status"]);
+    const res = parseCliProfileArgs(["node", "ws-agent", "--profile", "work", "status"]);
     if (!res.ok) {
       throw new Error(res.error);
     }
     expect(res.profile).toBe("work");
-    expect(res.argv).toEqual(["node", "openclaw", "status"]);
+    expect(res.argv).toEqual(["node", "ws-agent", "status"]);
   });
 
   it("rejects missing profile value", () => {
-    const res = parseCliProfileArgs(["node", "openclaw", "--profile"]);
+    const res = parseCliProfileArgs(["node", "ws-agent", "--profile"]);
     expect(res.ok).toBe(false);
   });
 
   it.each([
-    ["--dev first", ["node", "openclaw", "--dev", "--profile", "work", "status"]],
-    ["--profile first", ["node", "openclaw", "--profile", "work", "--dev", "status"]],
+    ["--dev first", ["node", "ws-agent", "--dev", "--profile", "work", "status"]],
+    ["--profile first", ["node", "ws-agent", "--profile", "work", "--dev", "status"]],
   ])("rejects combining --dev with --profile (%s)", (_name, argv) => {
     const res = parseCliProfileArgs(argv);
     expect(res.ok).toBe(false);
@@ -59,31 +59,31 @@ describe("applyCliProfileEnv", () => {
       env,
       homedir: () => "/home/peter",
     });
-    const expectedStateDir = path.join(path.resolve("/home/peter"), ".openclaw-dev");
-    expect(env.OPENCLAW_PROFILE).toBe("dev");
-    expect(env.OPENCLAW_STATE_DIR).toBe(expectedStateDir);
-    expect(env.OPENCLAW_CONFIG_PATH).toBe(path.join(expectedStateDir, "openclaw.json"));
-    expect(env.OPENCLAW_GATEWAY_PORT).toBe("19001");
+    const expectedStateDir = path.join(path.resolve("/home/peter"), ".ws-agent-dev");
+    expect(env.WS_AGENT_PROFILE).toBe("dev");
+    expect(env.WS_AGENT_STATE_DIR).toBe(expectedStateDir);
+    expect(env.WS_AGENT_CONFIG_PATH).toBe(path.join(expectedStateDir, "ws-agent.json"));
+    expect(env.WS_AGENT_GATEWAY_PORT).toBe("19001");
   });
 
   it("does not override explicit env values", () => {
     const env: Record<string, string | undefined> = {
-      OPENCLAW_STATE_DIR: "/custom",
-      OPENCLAW_GATEWAY_PORT: "19099",
+      WS_AGENT_STATE_DIR: "/custom",
+      WS_AGENT_GATEWAY_PORT: "19099",
     };
     applyCliProfileEnv({
       profile: "dev",
       env,
       homedir: () => "/home/peter",
     });
-    expect(env.OPENCLAW_STATE_DIR).toBe("/custom");
-    expect(env.OPENCLAW_GATEWAY_PORT).toBe("19099");
-    expect(env.OPENCLAW_CONFIG_PATH).toBe(path.join("/custom", "openclaw.json"));
+    expect(env.WS_AGENT_STATE_DIR).toBe("/custom");
+    expect(env.WS_AGENT_GATEWAY_PORT).toBe("19099");
+    expect(env.WS_AGENT_CONFIG_PATH).toBe(path.join("/custom", "ws-agent.json"));
   });
 
-  it("uses OPENCLAW_HOME when deriving profile state dir", () => {
+  it("uses WS_AGENT_HOME when deriving profile state dir", () => {
     const env: Record<string, string | undefined> = {
-      OPENCLAW_HOME: "/srv/openclaw-home",
+      WS_AGENT_HOME: "/srv/ws-agent-home",
       HOME: "/home/other",
     };
     applyCliProfileEnv({
@@ -92,10 +92,10 @@ describe("applyCliProfileEnv", () => {
       homedir: () => "/home/fallback",
     });
 
-    const resolvedHome = path.resolve("/srv/openclaw-home");
-    expect(env.OPENCLAW_STATE_DIR).toBe(path.join(resolvedHome, ".openclaw-work"));
-    expect(env.OPENCLAW_CONFIG_PATH).toBe(
-      path.join(resolvedHome, ".openclaw-work", "openclaw.json"),
+    const resolvedHome = path.resolve("/srv/ws-agent-home");
+    expect(env.WS_AGENT_STATE_DIR).toBe(path.join(resolvedHome, ".ws-agent-work"));
+    expect(env.WS_AGENT_CONFIG_PATH).toBe(
+      path.join(resolvedHome, ".ws-agent-work", "ws-agent.json"),
     );
   });
 });
@@ -104,65 +104,65 @@ describe("formatCliCommand", () => {
   it.each([
     {
       name: "no profile is set",
-      cmd: "openclaw doctor --fix",
+      cmd: "ws-agent doctor --fix",
       env: {},
-      expected: "openclaw doctor --fix",
+      expected: "ws-agent doctor --fix",
     },
     {
       name: "profile is default",
-      cmd: "openclaw doctor --fix",
-      env: { OPENCLAW_PROFILE: "default" },
-      expected: "openclaw doctor --fix",
+      cmd: "ws-agent doctor --fix",
+      env: { WS_AGENT_PROFILE: "default" },
+      expected: "ws-agent doctor --fix",
     },
     {
       name: "profile is Default (case-insensitive)",
-      cmd: "openclaw doctor --fix",
-      env: { OPENCLAW_PROFILE: "Default" },
-      expected: "openclaw doctor --fix",
+      cmd: "ws-agent doctor --fix",
+      env: { WS_AGENT_PROFILE: "Default" },
+      expected: "ws-agent doctor --fix",
     },
     {
       name: "profile is invalid",
-      cmd: "openclaw doctor --fix",
-      env: { OPENCLAW_PROFILE: "bad profile" },
-      expected: "openclaw doctor --fix",
+      cmd: "ws-agent doctor --fix",
+      env: { WS_AGENT_PROFILE: "bad profile" },
+      expected: "ws-agent doctor --fix",
     },
     {
       name: "--profile is already present",
-      cmd: "openclaw --profile work doctor --fix",
-      env: { OPENCLAW_PROFILE: "work" },
-      expected: "openclaw --profile work doctor --fix",
+      cmd: "ws-agent --profile work doctor --fix",
+      env: { WS_AGENT_PROFILE: "work" },
+      expected: "ws-agent --profile work doctor --fix",
     },
     {
       name: "--dev is already present",
-      cmd: "openclaw --dev doctor",
-      env: { OPENCLAW_PROFILE: "dev" },
-      expected: "openclaw --dev doctor",
+      cmd: "ws-agent --dev doctor",
+      env: { WS_AGENT_PROFILE: "dev" },
+      expected: "ws-agent --dev doctor",
     },
   ])("returns command unchanged when $name", ({ cmd, env, expected }) => {
     expect(formatCliCommand(cmd, env)).toBe(expected);
   });
 
   it("inserts --profile flag when profile is set", () => {
-    expect(formatCliCommand("openclaw doctor --fix", { OPENCLAW_PROFILE: "work" })).toBe(
-      "openclaw --profile work doctor --fix",
+    expect(formatCliCommand("ws-agent doctor --fix", { WS_AGENT_PROFILE: "work" })).toBe(
+      "ws-agent --profile work doctor --fix",
     );
   });
 
   it("trims whitespace from profile", () => {
-    expect(formatCliCommand("openclaw doctor --fix", { OPENCLAW_PROFILE: "  jbopenclaw  " })).toBe(
-      "openclaw --profile jbopenclaw doctor --fix",
+    expect(formatCliCommand("ws-agent doctor --fix", { WS_AGENT_PROFILE: "  jbws-agent  " })).toBe(
+      "ws-agent --profile jbws-agent doctor --fix",
     );
   });
 
-  it("handles command with no args after openclaw", () => {
-    expect(formatCliCommand("openclaw", { OPENCLAW_PROFILE: "test" })).toBe(
-      "openclaw --profile test",
+  it("handles command with no args after ws-agent", () => {
+    expect(formatCliCommand("ws-agent", { WS_AGENT_PROFILE: "test" })).toBe(
+      "ws-agent --profile test",
     );
   });
 
   it("handles pnpm wrapper", () => {
-    expect(formatCliCommand("pnpm openclaw doctor", { OPENCLAW_PROFILE: "work" })).toBe(
-      "pnpm openclaw --profile work doctor",
+    expect(formatCliCommand("pnpm ws-agent doctor", { WS_AGENT_PROFILE: "work" })).toBe(
+      "pnpm ws-agent --profile work doctor",
     );
   });
 });

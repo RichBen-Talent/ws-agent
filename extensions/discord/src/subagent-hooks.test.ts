@@ -1,5 +1,5 @@
-import type { OpenClawPluginApi } from "openclaw/plugin-sdk";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import type { WsAgentPluginApi } from "ws-agent/plugin-sdk";
 import { registerDiscordSubagentHooks } from "./subagent-hooks.js";
 
 type ThreadBindingRecord = {
@@ -35,7 +35,7 @@ const hookMocks = vi.hoisted(() => ({
   unbindThreadBindingsBySessionKey: vi.fn(() => []),
 }));
 
-vi.mock("openclaw/plugin-sdk", () => ({
+vi.mock("ws-agent/plugin-sdk", () => ({
   resolveDiscordAccount: hookMocks.resolveDiscordAccount,
   autoBindSpawnedDiscordSubagent: hookMocks.autoBindSpawnedDiscordSubagent,
   listThreadBindingsBySessionKey: hookMocks.listThreadBindingsBySessionKey,
@@ -59,7 +59,7 @@ function registerHandlersForTest(
     on: (hookName: string, handler: (event: unknown, ctx: unknown) => unknown) => {
       handlers.set(hookName, handler);
     },
-  } as unknown as OpenClawPluginApi;
+  } as unknown as WsAgentPluginApi;
   registerDiscordSubagentHooks(api);
   return handlers;
 }

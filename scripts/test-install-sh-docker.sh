@@ -2,11 +2,11 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SMOKE_IMAGE="${OPENCLAW_INSTALL_SMOKE_IMAGE:-${CLAWDBOT_INSTALL_SMOKE_IMAGE:-openclaw-install-smoke:local}}"
-NONROOT_IMAGE="${OPENCLAW_INSTALL_NONROOT_IMAGE:-${CLAWDBOT_INSTALL_NONROOT_IMAGE:-openclaw-install-nonroot:local}}"
-INSTALL_URL="${OPENCLAW_INSTALL_URL:-${CLAWDBOT_INSTALL_URL:-https://openclaw.bot/install.sh}}"
-CLI_INSTALL_URL="${OPENCLAW_INSTALL_CLI_URL:-${CLAWDBOT_INSTALL_CLI_URL:-https://openclaw.bot/install-cli.sh}}"
-SKIP_NONROOT="${OPENCLAW_INSTALL_SMOKE_SKIP_NONROOT:-${CLAWDBOT_INSTALL_SMOKE_SKIP_NONROOT:-0}}"
+SMOKE_IMAGE="${WS_AGENT_INSTALL_SMOKE_IMAGE:-${WS_AGENT_INSTALL_SMOKE_IMAGE:-ws-agent-install-smoke:local}}"
+NONROOT_IMAGE="${WS_AGENT_INSTALL_NONROOT_IMAGE:-${WS_AGENT_INSTALL_NONROOT_IMAGE:-ws-agent-install-nonroot:local}}"
+INSTALL_URL="${WS_AGENT_INSTALL_URL:-${WS_AGENT_INSTALL_URL:-https://ws-agent.bot/install.sh}}"
+CLI_INSTALL_URL="${WS_AGENT_INSTALL_CLI_URL:-${WS_AGENT_INSTALL_CLI_URL:-https://ws-agent.bot/install-cli.sh}}"
+SKIP_NONROOT="${WS_AGENT_INSTALL_SMOKE_SKIP_NONROOT:-${WS_AGENT_INSTALL_SMOKE_SKIP_NONROOT:-0}}"
 LATEST_DIR="$(mktemp -d)"
 LATEST_FILE="${LATEST_DIR}/latest"
 
@@ -19,13 +19,13 @@ docker build \
 echo "==> Run installer smoke test (root): $INSTALL_URL"
 docker run --rm -t \
   -v "${LATEST_DIR}:/out" \
-  -e OPENCLAW_INSTALL_URL="$INSTALL_URL" \
-  -e OPENCLAW_INSTALL_METHOD=npm \
-  -e OPENCLAW_USE_GUM=0 \
-  -e OPENCLAW_INSTALL_LATEST_OUT="/out/latest" \
-  -e OPENCLAW_INSTALL_SMOKE_PREVIOUS="${OPENCLAW_INSTALL_SMOKE_PREVIOUS:-${CLAWDBOT_INSTALL_SMOKE_PREVIOUS:-}}" \
-  -e OPENCLAW_INSTALL_SMOKE_SKIP_PREVIOUS="${OPENCLAW_INSTALL_SMOKE_SKIP_PREVIOUS:-${CLAWDBOT_INSTALL_SMOKE_SKIP_PREVIOUS:-0}}" \
-  -e OPENCLAW_NO_ONBOARD=1 \
+  -e WS_AGENT_INSTALL_URL="$INSTALL_URL" \
+  -e WS_AGENT_INSTALL_METHOD=npm \
+  -e WS_AGENT_USE_GUM=0 \
+  -e WS_AGENT_INSTALL_LATEST_OUT="/out/latest" \
+  -e WS_AGENT_INSTALL_SMOKE_PREVIOUS="${WS_AGENT_INSTALL_SMOKE_PREVIOUS:-${WS_AGENT_INSTALL_SMOKE_PREVIOUS:-}}" \
+  -e WS_AGENT_INSTALL_SMOKE_SKIP_PREVIOUS="${WS_AGENT_INSTALL_SMOKE_SKIP_PREVIOUS:-${WS_AGENT_INSTALL_SMOKE_SKIP_PREVIOUS:-0}}" \
+  -e WS_AGENT_NO_ONBOARD=1 \
   -e DEBIAN_FRONTEND=noninteractive \
   "$SMOKE_IMAGE"
 
@@ -35,7 +35,7 @@ if [[ -f "$LATEST_FILE" ]]; then
 fi
 
 if [[ "$SKIP_NONROOT" == "1" ]]; then
-  echo "==> Skip non-root installer smoke (OPENCLAW_INSTALL_SMOKE_SKIP_NONROOT=1)"
+  echo "==> Skip non-root installer smoke (WS_AGENT_INSTALL_SMOKE_SKIP_NONROOT=1)"
 else
   echo "==> Build non-root image: $NONROOT_IMAGE"
   docker build \
@@ -45,17 +45,17 @@ else
 
   echo "==> Run installer non-root test: $INSTALL_URL"
   docker run --rm -t \
-    -e OPENCLAW_INSTALL_URL="$INSTALL_URL" \
-    -e OPENCLAW_INSTALL_METHOD=npm \
-    -e OPENCLAW_USE_GUM=0 \
-    -e OPENCLAW_INSTALL_EXPECT_VERSION="$LATEST_VERSION" \
-    -e OPENCLAW_NO_ONBOARD=1 \
+    -e WS_AGENT_INSTALL_URL="$INSTALL_URL" \
+    -e WS_AGENT_INSTALL_METHOD=npm \
+    -e WS_AGENT_USE_GUM=0 \
+    -e WS_AGENT_INSTALL_EXPECT_VERSION="$LATEST_VERSION" \
+    -e WS_AGENT_NO_ONBOARD=1 \
     -e DEBIAN_FRONTEND=noninteractive \
     "$NONROOT_IMAGE"
 fi
 
-if [[ "${OPENCLAW_INSTALL_SMOKE_SKIP_CLI:-${CLAWDBOT_INSTALL_SMOKE_SKIP_CLI:-0}}" == "1" ]]; then
-  echo "==> Skip CLI installer smoke (OPENCLAW_INSTALL_SMOKE_SKIP_CLI=1)"
+if [[ "${WS_AGENT_INSTALL_SMOKE_SKIP_CLI:-${WS_AGENT_INSTALL_SMOKE_SKIP_CLI:-0}}" == "1" ]]; then
+  echo "==> Skip CLI installer smoke (WS_AGENT_INSTALL_SMOKE_SKIP_CLI=1)"
   exit 0
 fi
 
@@ -67,9 +67,9 @@ fi
 echo "==> Run CLI installer non-root test (same image)"
 docker run --rm -t \
   --entrypoint /bin/bash \
-  -e OPENCLAW_INSTALL_URL="$INSTALL_URL" \
-  -e OPENCLAW_INSTALL_CLI_URL="$CLI_INSTALL_URL" \
-  -e OPENCLAW_USE_GUM=0 \
-  -e OPENCLAW_NO_ONBOARD=1 \
+  -e WS_AGENT_INSTALL_URL="$INSTALL_URL" \
+  -e WS_AGENT_INSTALL_CLI_URL="$CLI_INSTALL_URL" \
+  -e WS_AGENT_USE_GUM=0 \
+  -e WS_AGENT_NO_ONBOARD=1 \
   -e DEBIAN_FRONTEND=noninteractive \
   "$NONROOT_IMAGE" -lc "curl -fsSL \"$CLI_INSTALL_URL\" | bash -s -- --set-npm-prefix --no-onboard"

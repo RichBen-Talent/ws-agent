@@ -1,5 +1,5 @@
-import type { MSTeamsConfig } from "openclaw/plugin-sdk";
 import { describe, expect, it } from "vitest";
+import type { MSTeamsConfig } from "ws-agent/plugin-sdk";
 import {
   isMSTeamsGroupAllowed,
   resolveMSTeamsReplyPolicy,

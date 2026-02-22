@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { WsAgentConfig } from "../../../config/config.js";
 
 const handleDiscordAction = vi.fn(async (..._args: unknown[]) => ({ details: { ok: true } }));
 const handleTelegramAction = vi.fn(async (..._args: unknown[]) => ({ ok: true }));
@@ -30,8 +30,8 @@ const { telegramMessageActions } = await import("./telegram.js");
 const { signalMessageActions } = await import("./signal.js");
 const { createSlackActions } = await import("../slack.actions.js");
 
-function telegramCfg(): OpenClawConfig {
-  return { channels: { telegram: { botToken: "tok" } } } as OpenClawConfig;
+function telegramCfg(): WsAgentConfig {
+  return { channels: { telegram: { botToken: "tok" } } } as WsAgentConfig;
 }
 
 type TelegramActionInput = Parameters<NonNullable<typeof telegramMessageActions.handleAction>>[0];
@@ -39,7 +39,7 @@ type TelegramActionInput = Parameters<NonNullable<typeof telegramMessageActions.
 async function runTelegramAction(
   action: TelegramActionInput["action"],
   params: TelegramActionInput["params"],
-  options?: { cfg?: OpenClawConfig; accountId?: string },
+  options?: { cfg?: WsAgentConfig; accountId?: string },
 ) {
   const cfg = options?.cfg ?? telegramCfg();
   const handleAction = telegramMessageActions.handleAction;
@@ -61,10 +61,10 @@ type SignalActionInput = Parameters<NonNullable<typeof signalMessageActions.hand
 async function runSignalAction(
   action: SignalActionInput["action"],
   params: SignalActionInput["params"],
-  options?: { cfg?: OpenClawConfig; accountId?: string },
+  options?: { cfg?: WsAgentConfig; accountId?: string },
 ) {
   const cfg =
-    options?.cfg ?? ({ channels: { signal: { account: "+15550001111" } } } as OpenClawConfig);
+    options?.cfg ?? ({ channels: { signal: { account: "+15550001111" } } } as WsAgentConfig);
   const handleAction = signalMessageActions.handleAction;
   if (!handleAction) {
     throw new Error("signal handleAction unavailable");
@@ -80,7 +80,7 @@ async function runSignalAction(
 }
 
 function slackHarness() {
-  const cfg = { channels: { slack: { botToken: "tok" } } } as OpenClawConfig;
+  const cfg = { channels: { slack: { botToken: "tok" } } } as WsAgentConfig;
   const actions = createSlackActions("slack");
   return { cfg, actions };
 }
@@ -133,7 +133,7 @@ beforeEach(() => {
 
 describe("discord message actions", () => {
   it("lists channel and upload actions by default", async () => {
-    const cfg = { channels: { discord: { token: "d0" } } } as OpenClawConfig;
+    const cfg = { channels: { discord: { token: "d0" } } } as WsAgentConfig;
     const actions = discordMessageActions.listActions?.({ cfg }) ?? [];
 
     expect(actions).toContain("emoji-upload");
@@ -144,7 +144,7 @@ describe("discord message actions", () => {
   it("respects disabled channel actions", async () => {
     const cfg = {
       channels: { discord: { token: "d0", actions: { channels: false } } },
-    } as OpenClawConfig;
+    } as WsAgentConfig;
     const actions = discordMessageActions.listActions?.({ cfg }) ?? [];
 
     expect(actions).not.toContain("channel-create");
@@ -174,7 +174,7 @@ describe("discord message actions", () => {
     ] as const;
 
     for (const channelConfig of cases) {
-      const cfg = channelConfig as unknown as OpenClawConfig;
+      const cfg = channelConfig as unknown as WsAgentConfig;
       const actions = discordMessageActions.listActions?.({ cfg }) ?? [];
       expectModerationActions(actions);
     }
@@ -190,7 +190,7 @@ describe("discord message actions", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as WsAgentConfig;
     const actions = discordMessageActions.listActions?.({ cfg }) ?? [];
 
     // moderation defaults to false, so without explicit true it stays hidden
@@ -209,7 +209,7 @@ describe("discord message actions", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as WsAgentConfig;
     const actions = discordMessageActions.listActions?.({ cfg }) ?? [];
 
     expect(actions).toContain("timeout");
@@ -226,7 +226,7 @@ describe("discord message actions", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as WsAgentConfig;
     const actions = discordMessageActions.listActions?.({ cfg }) ?? [];
 
     expect(actions).toContain("timeout");
@@ -357,7 +357,7 @@ describe("handleDiscordMessageAction", () => {
     it(testCase.name, async () => {
       await handleDiscordMessageAction({
         ...testCase.input,
-        cfg: {} as OpenClawConfig,
+        cfg: {} as WsAgentConfig,
       });
 
       expect(handleDiscordAction).toHaveBeenCalledWith(
@@ -376,7 +376,7 @@ describe("handleDiscordMessageAction", () => {
         durationMin: 5,
         senderUserId: "spoofed-admin-id",
       },
-      cfg: {} as OpenClawConfig,
+      cfg: {} as WsAgentConfig,
       requesterSenderId: "trusted-sender-id",
       toolContext: { currentChannelProvider: "discord" },
     });
@@ -412,7 +412,7 @@ describe("telegramMessageActions", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as WsAgentConfig,
         expectSticker: true,
       },
       {
@@ -426,7 +426,7 @@ describe("telegramMessageActions", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as WsAgentConfig,
         expectSticker: false,
       },
     ] as const;
@@ -556,7 +556,7 @@ describe("telegramMessageActions", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as WsAgentConfig;
     const actions = telegramMessageActions.listActions?.({ cfg }) ?? [];
 
     expect(actions).toContain("sticker");
@@ -597,14 +597,14 @@ describe("signalMessageActions", () => {
     const cases = [
       {
         name: "no configured accounts",
-        cfg: {} as OpenClawConfig,
+        cfg: {} as WsAgentConfig,
         expected: [],
       },
       {
         name: "reactions disabled",
         cfg: {
           channels: { signal: { account: "+15550001111", actions: { reactions: false } } },
-        } as OpenClawConfig,
+        } as WsAgentConfig,
         expected: ["send"],
       },
       {
@@ -618,7 +618,7 @@ describe("signalMessageActions", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as WsAgentConfig,
         expected: ["send", "react"],
       },
     ] as const;
@@ -639,7 +639,7 @@ describe("signalMessageActions", () => {
   it("blocks reactions when action gate is disabled", async () => {
     const cfg = {
       channels: { signal: { account: "+15550001111", actions: { reactions: false } } },
-    } as OpenClawConfig;
+    } as WsAgentConfig;
     const handleAction = signalMessageActions.handleAction;
     if (!handleAction) {
       throw new Error("signal handleAction unavailable");
@@ -669,14 +669,14 @@ describe("signalMessageActions", () => {
               },
             },
           },
-        } as OpenClawConfig,
+        } as WsAgentConfig,
         accountId: "work",
         params: { to: "+15550001111", messageId: "123", emoji: "👍" },
         expectedArgs: ["+15550001111", 123, "👍", { accountId: "work" }],
       },
       {
         name: "normalizes uuid recipients",
-        cfg: { channels: { signal: { account: "+15550001111" } } } as OpenClawConfig,
+        cfg: { channels: { signal: { account: "+15550001111" } } } as WsAgentConfig,
         accountId: undefined,
         params: {
           recipient: "uuid:123e4567-e89b-12d3-a456-426614174000",
@@ -687,7 +687,7 @@ describe("signalMessageActions", () => {
       },
       {
         name: "passes groupId and targetAuthor for group reactions",
-        cfg: { channels: { signal: { account: "+15550001111" } } } as OpenClawConfig,
+        cfg: { channels: { signal: { account: "+15550001111" } } } as WsAgentConfig,
         accountId: undefined,
         params: {
           to: "signal:group:group-id",
@@ -722,7 +722,7 @@ describe("signalMessageActions", () => {
   it("requires targetAuthor for group reactions", async () => {
     const cfg = {
       channels: { signal: { account: "+15550001111" } },
-    } as OpenClawConfig;
+    } as WsAgentConfig;
     const handleAction = signalMessageActions.handleAction;
     if (!handleAction) {
       throw new Error("signal handleAction unavailable");

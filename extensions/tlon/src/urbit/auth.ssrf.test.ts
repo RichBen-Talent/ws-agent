@@ -1,6 +1,6 @@
-import type { LookupFn } from "openclaw/plugin-sdk";
-import { SsrFBlockedError } from "openclaw/plugin-sdk";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import type { LookupFn } from "ws-agent/plugin-sdk";
+import { SsrFBlockedError } from "ws-agent/plugin-sdk";
 import { authenticate } from "./auth.js";
 
 describe("tlon urbit auth ssrf", () => {

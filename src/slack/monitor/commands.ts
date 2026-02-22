@@ -18,8 +18,8 @@ export function normalizeSlackSlashCommandName(raw: string) {
 export function resolveSlackSlashCommandConfig(
   raw?: SlackSlashCommandConfig,
 ): Required<SlackSlashCommandConfig> {
-  const normalizedName = normalizeSlackSlashCommandName(raw?.name?.trim() || "openclaw");
-  const name = normalizedName || "openclaw";
+  const normalizedName = normalizeSlackSlashCommandName(raw?.name?.trim() || "ws-agent");
+  const name = normalizedName || "ws-agent";
   return {
     enabled: raw?.enabled === true,
     name,

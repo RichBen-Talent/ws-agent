@@ -37,7 +37,7 @@ function withLoopbackBrowserAuthImpl(
   deps: LoopbackBrowserAuthDeps,
 ): RequestInit & { timeoutMs?: number } {
   const headers = new Headers(init?.headers ?? {});
-  if (headers.has("authorization") || headers.has("x-openclaw-password")) {
+  if (headers.has("authorization") || headers.has("x-ws-agent-password")) {
     return { ...init, headers };
   }
   if (!isLoopbackHttpUrl(url)) {
@@ -52,7 +52,7 @@ function withLoopbackBrowserAuthImpl(
       return { ...init, headers };
     }
     if (auth.password) {
-      headers.set("x-openclaw-password", auth.password);
+      headers.set("x-ws-agent-password", auth.password);
       return { ...init, headers };
     }
   } catch {
@@ -73,7 +73,7 @@ function withLoopbackBrowserAuthImpl(
     if (bridgeAuth?.token) {
       headers.set("Authorization", `Bearer ${bridgeAuth.token}`);
     } else if (bridgeAuth?.password) {
-      headers.set("x-openclaw-password", bridgeAuth.password);
+      headers.set("x-ws-agent-password", bridgeAuth.password);
     }
   } catch {
     // ignore
@@ -97,7 +97,7 @@ function enhanceBrowserFetchError(url: string, err: unknown, timeoutMs: number):
   const isLocal = !isAbsoluteHttp(url);
   // Human-facing hint for logs/diagnostics.
   const operatorHint = isLocal
-    ? `Restart the OpenClaw gateway (OpenClaw.app menubar, or \`${formatCliCommand("openclaw gateway")}\`).`
+    ? `Restart the WsAgent gateway (WsAgent.app menubar, or \`${formatCliCommand("ws-agent gateway")}\`).`
     : "If this is a sandboxed session, ensure the sandbox browser is running.";
   // Model-facing suffix: explicitly tell the LLM NOT to retry.
   // Without this, models see "try again" and enter an infinite tool-call loop.
@@ -114,11 +114,11 @@ function enhanceBrowserFetchError(url: string, err: unknown, timeoutMs: number):
     msgLower.includes("aborterror");
   if (looksLikeTimeout) {
     return new Error(
-      `Can't reach the OpenClaw browser control service (timed out after ${timeoutMs}ms). ${operatorHint} ${modelHint}`,
+      `Can't reach the WsAgent browser control service (timed out after ${timeoutMs}ms). ${operatorHint} ${modelHint}`,
     );
   }
   return new Error(
-    `Can't reach the OpenClaw browser control service. ${operatorHint} ${modelHint} (${msg})`,
+    `Can't reach the WsAgent browser control service. ${operatorHint} ${modelHint} (${msg})`,
   );
 }
 

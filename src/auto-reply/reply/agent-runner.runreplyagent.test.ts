@@ -86,7 +86,7 @@ beforeAll(async () => {
 beforeEach(() => {
   state.runEmbeddedPiAgentMock.mockClear();
   state.runCliAgentMock.mockClear();
-  vi.stubEnv("OPENCLAW_TEST_FAST", "1");
+  vi.stubEnv("WS_AGENT_TEST_FAST", "1");
 });
 
 function createMinimalRun(params?: {
@@ -277,7 +277,7 @@ async function runReplyAgentWithBase(params: {
 describe("runReplyAgent typing (heartbeat)", () => {
   async function withTempStateDir<T>(fn: (stateDir: string) => Promise<T>): Promise<T> {
     return await withStateDirEnv(
-      "openclaw-typing-heartbeat-",
+      "ws-agent-typing-heartbeat-",
       async ({ stateDir }) => await fn(stateDir),
     );
   }
@@ -1355,7 +1355,7 @@ describe("runReplyAgent memory flush", () => {
   }
 
   beforeAll(async () => {
-    fixtureRoot = await fs.mkdtemp(path.join(tmpdir(), "openclaw-memory-flush-"));
+    fixtureRoot = await fs.mkdtemp(path.join(tmpdir(), "ws-agent-memory-flush-"));
   });
 
   afterAll(async () => {

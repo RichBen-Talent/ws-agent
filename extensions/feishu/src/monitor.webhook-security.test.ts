@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
-import type { ClawdbotConfig } from "openclaw/plugin-sdk";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { WsAgentConfig } from "ws-agent/plugin-sdk";
 
 const probeFeishuMock = vi.hoisted(() => vi.fn());
 
@@ -56,7 +56,7 @@ function buildConfig(params: {
   path: string;
   port: number;
   verificationToken?: string;
-}): ClawdbotConfig {
+}): WsAgentConfig {
   return {
     channels: {
       feishu: {
@@ -75,7 +75,7 @@ function buildConfig(params: {
         },
       },
     },
-  } as ClawdbotConfig;
+  } as WsAgentConfig;
 }
 
 async function withRunningWebhookMonitor(

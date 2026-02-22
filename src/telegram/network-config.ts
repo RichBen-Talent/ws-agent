@@ -4,8 +4,8 @@ import { isTruthyEnvValue } from "../infra/env.js";
 import { isWSL2Sync } from "../infra/wsl.js";
 
 export const TELEGRAM_DISABLE_AUTO_SELECT_FAMILY_ENV =
-  "OPENCLAW_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY";
-export const TELEGRAM_ENABLE_AUTO_SELECT_FAMILY_ENV = "OPENCLAW_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY";
+  "WS_AGENT_TELEGRAM_DISABLE_AUTO_SELECT_FAMILY";
+export const TELEGRAM_ENABLE_AUTO_SELECT_FAMILY_ENV = "WS_AGENT_TELEGRAM_ENABLE_AUTO_SELECT_FAMILY";
 
 export type TelegramAutoSelectFamilyDecision = {
   value: boolean | null;

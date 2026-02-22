@@ -1,16 +1,16 @@
+import { describe, expect, it, vi } from "vitest";
 import type {
   ChannelAccountSnapshot,
   ChannelGatewayContext,
-  OpenClawConfig,
+  WsAgentConfig,
   PluginRuntime,
   ResolvedTelegramAccount,
   RuntimeEnv,
-} from "openclaw/plugin-sdk";
-import { describe, expect, it, vi } from "vitest";
+} from "ws-agent/plugin-sdk";
 import { telegramPlugin } from "./channel.js";
 import { setTelegramRuntime } from "./runtime.js";
 
-function createCfg(): OpenClawConfig {
+function createCfg(): WsAgentConfig {
   return {
     channels: {
       telegram: {
@@ -22,7 +22,7 @@ function createCfg(): OpenClawConfig {
         },
       },
     },
-  } as OpenClawConfig;
+  } as WsAgentConfig;
 }
 
 function createRuntimeEnv(): RuntimeEnv {
@@ -36,7 +36,7 @@ function createRuntimeEnv(): RuntimeEnv {
 }
 
 function createStartAccountCtx(params: {
-  cfg: OpenClawConfig;
+  cfg: WsAgentConfig;
   accountId: string;
   runtime: RuntimeEnv;
 }): ChannelGatewayContext<ResolvedTelegramAccount> {

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import { join } from "node:path";
 import { afterEach, expect, vi } from "vitest";
 import { withTempHome as withTempHomeBase } from "../../test/helpers/temp-home.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { WsAgentConfig } from "../config/config.js";
 
 // Avoid exporting vitest mock types (TS2742 under pnpm + d.ts emit).
 // oxlint-disable-next-line typescript/no-explicit-any
@@ -114,16 +114,16 @@ export async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise
       piEmbeddedMocks.compactEmbeddedPiSession.mockClear();
       return await fn(home);
     },
-    { prefix: "openclaw-triggers-" },
+    { prefix: "ws-agent-triggers-" },
   );
 }
 
-export function makeCfg(home: string): OpenClawConfig {
+export function makeCfg(home: string): WsAgentConfig {
   return {
     agents: {
       defaults: {
         model: { primary: "anthropic/claude-opus-4-5" },
-        workspace: join(home, "openclaw"),
+        workspace: join(home, "ws-agent"),
       },
     },
     channels: {
@@ -132,7 +132,7 @@ export function makeCfg(home: string): OpenClawConfig {
       },
     },
     session: { store: join(home, "sessions.json") },
-  } as OpenClawConfig;
+  } as WsAgentConfig;
 }
 
 export async function loadGetReplyFromConfig() {
@@ -157,7 +157,7 @@ export async function readSessionStore(cfg: {
 export function makeWhatsAppElevatedCfg(
   home: string,
   opts?: { elevatedEnabled?: boolean; requireMentionInGroups?: boolean },
-): OpenClawConfig {
+): WsAgentConfig {
   const cfg = makeCfg(home);
   cfg.channels ??= {};
   cfg.channels.whatsapp = {
@@ -179,7 +179,7 @@ export function makeWhatsAppElevatedCfg(
 }
 
 export async function runDirectElevatedToggleAndLoadStore(params: {
-  cfg: OpenClawConfig;
+  cfg: WsAgentConfig;
   getReplyFromConfig: typeof import("./reply.js").getReplyFromConfig;
   body?: string;
 }): Promise<{

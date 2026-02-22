@@ -54,21 +54,21 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw status", "Show channel health + session summary."],
-          ["openclaw status --all", "Full diagnosis (read-only)."],
-          ["openclaw status --json", "Machine-readable output."],
-          ["openclaw status --usage", "Show model provider usage/quota snapshots."],
+          ["ws-agent status", "Show channel health + session summary."],
+          ["ws-agent status --all", "Full diagnosis (read-only)."],
+          ["ws-agent status --json", "Machine-readable output."],
+          ["ws-agent status --usage", "Show model provider usage/quota snapshots."],
           [
-            "openclaw status --deep",
+            "ws-agent status --deep",
             "Run channel probes (WA + Telegram + Discord + Slack + Signal).",
           ],
-          ["openclaw status --deep --timeout 5000", "Tighten probe timeout."],
+          ["ws-agent status --deep --timeout 5000", "Tighten probe timeout."],
         ])}`,
     )
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/status", "docs.openclaw.ai/cli/status")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/status", "docs.ws-agent.ai/cli/status")}\n`,
     )
     .action(async (opts) => {
       await runWithVerboseAndTimeout(opts, async ({ verbose, timeoutMs }) => {
@@ -96,7 +96,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/health", "docs.openclaw.ai/cli/health")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/health", "docs.ws-agent.ai/cli/health")}\n`,
     )
     .action(async (opts) => {
       await runWithVerboseAndTimeout(opts, async ({ verbose, timeoutMs }) => {
@@ -122,10 +122,10 @@ export function registerStatusHealthSessionsCommands(program: Command) {
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw sessions", "List all sessions."],
-          ["openclaw sessions --active 120", "Only last 2 hours."],
-          ["openclaw sessions --json", "Machine-readable output."],
-          ["openclaw sessions --store ./tmp/sessions.json", "Use a specific session store."],
+          ["ws-agent sessions", "List all sessions."],
+          ["ws-agent sessions --active 120", "Only last 2 hours."],
+          ["ws-agent sessions --json", "Machine-readable output."],
+          ["ws-agent sessions --store ./tmp/sessions.json", "Use a specific session store."],
         ])}\n\n${theme.muted(
           "Shows token usage per session when the agent reports it; set agents.defaults.contextTokens to cap the window and show %.",
         )}`,
@@ -133,7 +133,7 @@ export function registerStatusHealthSessionsCommands(program: Command) {
     .addHelpText(
       "after",
       () =>
-        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sessions", "docs.openclaw.ai/cli/sessions")}\n`,
+        `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/sessions", "docs.ws-agent.ai/cli/sessions")}\n`,
     )
     .action(async (opts) => {
       setVerbose(Boolean(opts.verbose));

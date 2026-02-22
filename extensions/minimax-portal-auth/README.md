@@ -1,4 +1,4 @@
-# MiniMax OAuth (OpenClaw plugin)
+# MiniMax OAuth (WsAgent plugin)
 
 OAuth provider plugin for **MiniMax** (OAuth).
 
@@ -7,19 +7,19 @@ OAuth provider plugin for **MiniMax** (OAuth).
 Bundled plugins are disabled by default. Enable this one:
 
 ```bash
-openclaw plugins enable minimax-portal-auth
+ws-agent plugins enable minimax-portal-auth
 ```
 
 Restart the Gateway after enabling.
 
 ```bash
-openclaw gateway restart
+ws-agent gateway restart
 ```
 
 ## Authenticate
 
 ```bash
-openclaw models auth login --provider minimax-portal --set-default
+ws-agent models auth login --provider minimax-portal --set-default
 ```
 
 You will be prompted to select an endpoint:

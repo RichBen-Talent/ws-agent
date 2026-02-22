@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/discord",
+  "name": "@ws-agent/discord",
   "version": "2026.2.22",
-  "description": "OpenClaw Discord channel plugin",
+  "description": "WsAgent Discord channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "ws-agent": "workspace:*"
   },
-  "openclaw": {
+  "ws-agent": {
     "extensions": [
       "./index.ts"
     ]

@@ -33,22 +33,22 @@ describe("control UI routing", () => {
   });
 
   it("infers nested base paths", async () => {
-    const app = mountApp("/apps/openclaw/cron");
+    const app = mountApp("/apps/ws-agent/cron");
     await app.updateComplete;
 
-    expect(app.basePath).toBe("/apps/openclaw");
+    expect(app.basePath).toBe("/apps/ws-agent");
     expect(app.tab).toBe("cron");
-    expect(window.location.pathname).toBe("/apps/openclaw/cron");
+    expect(window.location.pathname).toBe("/apps/ws-agent/cron");
   });
 
   it("honors explicit base path overrides", async () => {
-    window.__OPENCLAW_CONTROL_UI_BASE_PATH__ = "/openclaw";
-    const app = mountApp("/openclaw/sessions");
+    window.__WS_AGENT_CONTROL_UI_BASE_PATH__ = "/ws-agent";
+    const app = mountApp("/ws-agent/sessions");
     await app.updateComplete;
 
-    expect(app.basePath).toBe("/openclaw");
+    expect(app.basePath).toBe("/ws-agent");
     expect(app.tab).toBe("sessions");
-    expect(window.location.pathname).toBe("/openclaw/sessions");
+    expect(window.location.pathname).toBe("/ws-agent/sessions");
   });
 
   it("updates the URL when clicking nav items", async () => {
@@ -166,7 +166,7 @@ describe("control UI routing", () => {
 
   it("hydrates token from URL params even when settings already set", async () => {
     localStorage.setItem(
-      "openclaw.control.settings.v1",
+      "ws-agent.control.settings.v1",
       JSON.stringify({ token: "existing-token" }),
     );
     const app = mountApp("/ui/overview?token=abc123");

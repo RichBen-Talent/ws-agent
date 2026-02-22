@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/bluebubbles",
+  "name": "@ws-agent/bluebubbles",
   "version": "2026.2.22",
-  "description": "OpenClaw BlueBubbles channel plugin",
+  "description": "WsAgent BlueBubbles channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "ws-agent": "workspace:*"
   },
-  "openclaw": {
+  "ws-agent": {
     "extensions": [
       "./index.ts"
     ],
@@ -28,7 +28,7 @@
       "order": 75
     },
     "install": {
-      "npmSpec": "@openclaw/bluebubbles",
+      "npmSpec": "@ws-agent/bluebubbles",
       "localPath": "extensions/bluebubbles",
       "defaultChoice": "npm"
     }

@@ -26,8 +26,8 @@ describe("tailscale helpers", () => {
   let envSnapshot: ReturnType<typeof captureEnv>;
 
   beforeEach(() => {
-    envSnapshot = captureEnv(["OPENCLAW_TEST_TAILSCALE_BINARY"]);
-    process.env.OPENCLAW_TEST_TAILSCALE_BINARY = "tailscale";
+    envSnapshot = captureEnv(["WS_AGENT_TEST_TAILSCALE_BINARY"]);
+    process.env.WS_AGENT_TEST_TAILSCALE_BINARY = "tailscale";
   });
 
   afterEach(() => {

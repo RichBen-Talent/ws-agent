@@ -9,7 +9,7 @@ import {
   setAccountEnabledInConfigSection,
   deleteAccountFromConfigSection,
   type ChannelPlugin,
-} from "openclaw/plugin-sdk";
+} from "ws-agent/plugin-sdk";
 import {
   listIrcAccountIds,
   resolveDefaultIrcAccountId,

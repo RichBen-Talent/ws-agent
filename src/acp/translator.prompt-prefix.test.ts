@@ -47,22 +47,22 @@ describe("acp prompt cwd prefix", () => {
   }
 
   it("redacts home directory in prompt prefix", async () => {
-    const requestSpy = await runPromptWithCwd(path.join(os.homedir(), "openclaw-test"));
+    const requestSpy = await runPromptWithCwd(path.join(os.homedir(), "ws-agent-test"));
     expect(requestSpy).toHaveBeenCalledWith(
       "chat.send",
       expect.objectContaining({
-        message: expect.stringMatching(/\[Working directory: ~[\\/]openclaw-test\]/),
+        message: expect.stringMatching(/\[Working directory: ~[\\/]ws-agent-test\]/),
       }),
       { expectFinal: true },
     );
   });
 
   it("keeps backslash separators when cwd uses them", async () => {
-    const requestSpy = await runPromptWithCwd(`${os.homedir()}\\openclaw-test`);
+    const requestSpy = await runPromptWithCwd(`${os.homedir()}\\ws-agent-test`);
     expect(requestSpy).toHaveBeenCalledWith(
       "chat.send",
       expect.objectContaining({
-        message: expect.stringContaining("[Working directory: ~\\openclaw-test]"),
+        message: expect.stringContaining("[Working directory: ~\\ws-agent-test]"),
       }),
       { expectFinal: true },
     );

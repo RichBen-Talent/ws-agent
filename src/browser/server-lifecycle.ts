@@ -43,6 +43,6 @@ export async function stopKnownBrowserProfiles(params: {
       }
     }
   } catch (err) {
-    params.onWarn(`openclaw browser stop failed: ${String(err)}`);
+    params.onWarn(`ws-agent browser stop failed: ${String(err)}`);
   }
 }

@@ -1,5 +1,5 @@
-import type { OpenClawConfig } from "openclaw/plugin-sdk";
 import { describe, expect, it, vi } from "vitest";
+import type { WsAgentConfig } from "ws-agent/plugin-sdk";
 
 const probeFeishuMock = vi.hoisted(() => vi.fn());
 
@@ -24,7 +24,7 @@ describe("feishuPlugin.status.probeAccount", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as WsAgentConfig;
 
     const account = feishuPlugin.config.resolveAccount(cfg, "main");
     probeFeishuMock.mockResolvedValueOnce({ ok: true, appId: "cli_main" });

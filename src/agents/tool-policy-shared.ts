@@ -35,8 +35,8 @@ export const TOOL_GROUPS: Record<string, string[]> = {
   "group:messaging": ["message"],
   // Nodes + device tools
   "group:nodes": ["nodes"],
-  // All OpenClaw native tools (excludes provider plugins).
-  "group:openclaw": [
+  // All WsAgent native tools (excludes provider plugins).
+  "group:ws-agent": [
     "browser",
     "canvas",
     "nodes",

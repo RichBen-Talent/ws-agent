@@ -1,10 +1,10 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { WsAgentConfig } from "../config/config.js";
 
 export function setPluginEnabledInConfig(
-  config: OpenClawConfig,
+  config: WsAgentConfig,
   pluginId: string,
   enabled: boolean,
-): OpenClawConfig {
+): WsAgentConfig {
   return {
     ...config,
     plugins: {

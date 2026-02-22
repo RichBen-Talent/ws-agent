@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/copilot-proxy",
+  "name": "@ws-agent/copilot-proxy",
   "version": "2026.2.22",
   "private": true,
-  "description": "OpenClaw Copilot Proxy provider plugin",
+  "description": "WsAgent Copilot Proxy provider plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "ws-agent": "workspace:*"
   },
-  "openclaw": {
+  "ws-agent": {
     "extensions": [
       "./index.ts"
     ]

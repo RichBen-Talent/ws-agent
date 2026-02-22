@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { WsAgentConfig } from "../../../config/config.js";
 import type { DmPolicy } from "../../../config/types.js";
 import { promptAccountId as promptAccountIdSdk } from "../../../plugin-sdk/onboarding.js";
 import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../../../routing/session-key.js";
@@ -61,12 +61,12 @@ export function resolveOnboardingAccountId(params: {
 }
 
 export async function resolveAccountIdForConfigure(params: {
-  cfg: OpenClawConfig;
+  cfg: WsAgentConfig;
   prompter: WizardPrompter;
   label: string;
   accountOverride?: string;
   shouldPromptAccountIds: boolean;
-  listAccountIds: (cfg: OpenClawConfig) => string[];
+  listAccountIds: (cfg: WsAgentConfig) => string[];
   defaultAccountId: string;
 }): Promise<string> {
   const override = params.accountOverride?.trim();
@@ -85,11 +85,11 @@ export async function resolveAccountIdForConfigure(params: {
 }
 
 export function setAccountAllowFromForChannel(params: {
-  cfg: OpenClawConfig;
+  cfg: WsAgentConfig;
   channel: "imessage" | "signal";
   accountId: string;
   allowFrom: string[];
-}): OpenClawConfig {
+}): WsAgentConfig {
   const { cfg, channel, accountId, allowFrom } = params;
   if (accountId === DEFAULT_ACCOUNT_ID) {
     return {
@@ -122,10 +122,10 @@ export function setAccountAllowFromForChannel(params: {
 }
 
 export function setChannelDmPolicyWithAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: WsAgentConfig;
   channel: "imessage" | "signal";
   dmPolicy: DmPolicy;
-}): OpenClawConfig {
+}): WsAgentConfig {
   const { cfg, channel, dmPolicy } = params;
   const allowFrom =
     dmPolicy === "open" ? addWildcardAllowFrom(cfg.channels?.[channel]?.allowFrom) : undefined;

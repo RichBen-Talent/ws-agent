@@ -1,4 +1,4 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { WsAgentConfig } from "../config/config.js";
 import { resolveNodeRequireFromMeta } from "./node-require.js";
 
 const requireConfig = resolveNodeRequireFromMeta(import.meta.url);
@@ -108,11 +108,11 @@ function redactText(text: string, patterns: RegExp[]): string {
 }
 
 function resolveConfigRedaction(): RedactOptions {
-  let cfg: OpenClawConfig["logging"] | undefined;
+  let cfg: WsAgentConfig["logging"] | undefined;
   try {
     const loaded = requireConfig?.("../config/config.js") as
       | {
-          loadConfig?: () => OpenClawConfig;
+          loadConfig?: () => WsAgentConfig;
         }
       | undefined;
     cfg = loaded?.loadConfig?.().logging;

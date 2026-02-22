@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import WsAgent
 
 @Suite struct SettingsNetworkingHelpersTests {
     @Test func parseHostPortParsesIPv4() {

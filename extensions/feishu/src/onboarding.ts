@@ -1,18 +1,18 @@
 import type {
   ChannelOnboardingAdapter,
   ChannelOnboardingDmPolicy,
-  ClawdbotConfig,
+  WsAgentConfig,
   DmPolicy,
   WizardPrompter,
-} from "openclaw/plugin-sdk";
-import { addWildcardAllowFrom, DEFAULT_ACCOUNT_ID, formatDocsLink } from "openclaw/plugin-sdk";
+} from "ws-agent/plugin-sdk";
+import { addWildcardAllowFrom, DEFAULT_ACCOUNT_ID, formatDocsLink } from "ws-agent/plugin-sdk";
 import { resolveFeishuCredentials } from "./accounts.js";
 import { probeFeishu } from "./probe.js";
 import type { FeishuConfig } from "./types.js";
 
 const channel = "feishu" as const;
 
-function setFeishuDmPolicy(cfg: ClawdbotConfig, dmPolicy: DmPolicy): ClawdbotConfig {
+function setFeishuDmPolicy(cfg: WsAgentConfig, dmPolicy: DmPolicy): WsAgentConfig {
   const allowFrom =
     dmPolicy === "open"
       ? addWildcardAllowFrom(cfg.channels?.feishu?.allowFrom)?.map((entry) => String(entry))
@@ -30,7 +30,7 @@ function setFeishuDmPolicy(cfg: ClawdbotConfig, dmPolicy: DmPolicy): ClawdbotCon
   };
 }
 
-function setFeishuAllowFrom(cfg: ClawdbotConfig, allowFrom: string[]): ClawdbotConfig {
+function setFeishuAllowFrom(cfg: WsAgentConfig, allowFrom: string[]): WsAgentConfig {
   return {
     ...cfg,
     channels: {
@@ -51,9 +51,9 @@ function parseAllowFromInput(raw: string): string[] {
 }
 
 async function promptFeishuAllowFrom(params: {
-  cfg: ClawdbotConfig;
+  cfg: WsAgentConfig;
   prompter: WizardPrompter;
-}): Promise<ClawdbotConfig> {
+}): Promise<WsAgentConfig> {
   const existing = params.cfg.channels?.feishu?.allowFrom ?? [];
   await params.prompter.note(
     [
@@ -124,9 +124,9 @@ async function promptFeishuCredentials(prompter: WizardPrompter): Promise<{
 }
 
 function setFeishuGroupPolicy(
-  cfg: ClawdbotConfig,
+  cfg: WsAgentConfig,
   groupPolicy: "open" | "allowlist" | "disabled",
-): ClawdbotConfig {
+): WsAgentConfig {
   return {
     ...cfg,
     channels: {
@@ -140,7 +140,7 @@ function setFeishuGroupPolicy(
   };
 }
 
-function setFeishuGroupAllowFrom(cfg: ClawdbotConfig, groupAllowFrom: string[]): ClawdbotConfig {
+function setFeishuGroupAllowFrom(cfg: WsAgentConfig, groupAllowFrom: string[]): WsAgentConfig {
   return {
     ...cfg,
     channels: {

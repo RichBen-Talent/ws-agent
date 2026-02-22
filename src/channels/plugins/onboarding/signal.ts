@@ -1,7 +1,7 @@
 import { formatCliCommand } from "../../../cli/command-format.js";
 import { detectBinary } from "../../../commands/onboard-helpers.js";
 import { installSignalCli } from "../../../commands/signal-install.js";
-import type { OpenClawConfig } from "../../../config/config.js";
+import type { WsAgentConfig } from "../../../config/config.js";
 import type { DmPolicy } from "../../../config/types.js";
 import { DEFAULT_ACCOUNT_ID } from "../../../routing/session-key.js";
 import {
@@ -45,7 +45,7 @@ export function normalizeSignalAccountInput(value: string | null | undefined): s
   return `+${digits}`;
 }
 
-function setSignalDmPolicy(cfg: OpenClawConfig, dmPolicy: DmPolicy) {
+function setSignalDmPolicy(cfg: WsAgentConfig, dmPolicy: DmPolicy) {
   return setChannelDmPolicyWithAllowFrom({
     cfg,
     channel: "signal",
@@ -58,10 +58,10 @@ function isUuidLike(value: string): boolean {
 }
 
 async function promptSignalAllowFrom(params: {
-  cfg: OpenClawConfig;
+  cfg: WsAgentConfig;
   prompter: WizardPrompter;
   accountId?: string;
-}): Promise<OpenClawConfig> {
+}): Promise<WsAgentConfig> {
   const accountId = resolveOnboardingAccountId({
     accountId: params.accountId,
     defaultAccountId: resolveDefaultSignalAccountId(params.cfg),
@@ -293,9 +293,9 @@ export const signalOnboardingAdapter: ChannelOnboardingAdapter = {
 
     await prompter.note(
       [
-        'Link device with: signal-cli link -n "OpenClaw"',
+        'Link device with: signal-cli link -n "WsAgent"',
         "Scan QR in Signal → Linked Devices",
-        `Then run: ${formatCliCommand("openclaw gateway call channels.status --params '{\"probe\":true}'")}`,
+        `Then run: ${formatCliCommand("ws-agent gateway call channels.status --params '{\"probe\":true}'")}`,
         `Docs: ${formatDocsLink("/signal", "signal")}`,
       ].join("\n"),
       "Signal next steps",
